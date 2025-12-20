@@ -1,138 +1,243 @@
+import os
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sentiment_classifier import analyze_text_rows, summarize
 
 st.set_page_config(page_title="Customer Review Analyzer", layout="wide")
 
-# --- Built-in datasets (must exist in the GitHub repo root) ---
 DDOG_PATH = "reviews_ddog.csv"
 DT_PATH = "reviews_dt.csv"
-
 REQUIRED_COLS = {"id", "product", "source", "text"}
 
 
 @st.cache_data(show_spinner=False)
+def safe_read_csv(path: str) -> pd.DataFrame:
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+@st.cache_data(show_spinner=False)
 def load_builtin(ddog_path: str, dt_path: str) -> pd.DataFrame:
-    ddog = pd.read_csv(ddog_path)
-    dt = pd.read_csv(dt_path)
+    ddog = safe_read_csv(ddog_path)
+    dt = safe_read_csv(dt_path)
 
-    # Ensure consistent columns
-    ddog["product"] = ddog.get("product", "datadog")
-    dt["product"] = dt.get("product", "dynatrace")
+    # If one is missing, still return the other
+    frames = []
+    if not ddog.empty:
+        frames.append(ddog)
+    if not dt.empty:
+        frames.append(dt)
 
-    df = pd.concat([ddog, dt], ignore_index=True)
+    if not frames:
+        return pd.DataFrame()
 
-    # Basic cleanup
+    df = pd.concat(frames, ignore_index=True)
+
+    # Standardize columns
+    for c in ["id", "product", "source", "text"]:
+        if c not in df.columns:
+            df[c] = ""
+
     df["text"] = df["text"].fillna("").astype(str)
     df["source"] = df["source"].fillna("unknown").astype(str)
     df["product"] = df["product"].fillna("unknown").astype(str)
 
+    # Normalize product strings for filtering
+    df["product_norm"] = df["product"].str.strip().str.lower()
+
+    # Normalize firm if present
+    if "firm" in df.columns:
+        df["firm"] = df["firm"].fillna("NA").astype(str).str.strip().str.lower()
+        mapping = {
+            "mid market": "mid-market",
+            "midmarket": "mid-market",
+            "smb": "small",
+            "small business": "small",
+        }
+        df["firm"] = df["firm"].replace(mapping)
+
     return df
 
 
-def firm_mix_table(df: pd.DataFrame) -> pd.DataFrame:
+def firm_mix(df: pd.DataFrame) -> pd.DataFrame:
     if "firm" not in df.columns:
         return pd.DataFrame()
 
-    tmp = df.copy()
-    tmp["firm"] = tmp["firm"].fillna("NA").astype(str).str.strip().str.lower()
-
-    # normalize a bit
-    mapping = {
-        "mid market": "mid-market",
-        "midmarket": "mid-market",
-        "enterprise ": "enterprise",
-        "smb": "small",
-        "small business": "small",
-    }
-    tmp["firm"] = tmp["firm"].replace(mapping)
-
-    # keep only the buckets you care about
     buckets = ["small", "mid-market", "enterprise"]
-    tmp = tmp[tmp["firm"].isin(buckets)]
+    tmp = df[df["firm"].isin(buckets)].copy()
+    if tmp.empty:
+        return pd.DataFrame()
 
     out = (
-        tmp.groupby(["product", "firm"])["id"]
+        tmp.groupby(["product_norm", "firm"])["id"]
         .count()
         .rename("count")
         .reset_index()
     )
-    out["share"] = out.groupby("product")["count"].transform(lambda x: x / x.sum())
-    out = out.sort_values(["product", "count"], ascending=[True, False])
-    return out
+    out["share"] = out.groupby("product_norm")["count"].transform(lambda x: x / x.sum())
+    return out.sort_values(["product_norm", "count"], ascending=[True, False])
+
+
+def pie_for_firm(df: pd.DataFrame, product_norm: str):
+    mix = firm_mix(df)
+    if mix.empty:
+        st.info("No usable `firm` data found (needs small / mid-market / enterprise).")
+        return
+
+    m = mix[mix["product_norm"] == product_norm]
+    if m.empty:
+        st.info("No firm-size rows for this product.")
+        return
+
+    labels = m["firm"].tolist()
+    sizes = m["count"].tolist()
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct="%1.1f%%", startangle=90)
+    ax.axis("equal")
+    st.pyplot(fig, clear_figure=True)
+
+
+@st.cache_data(show_spinner=False)
+def run_full_analysis(df_in: pd.DataFrame):
+    """
+    Runs your sentence-level pipeline + aspect summary.
+    Returns:
+      df_sent: sentence-level rows
+      summary: aspect-level summary (mentions, pos/neg/neu, shares, net sentiment etc.)
+      examples: example snippets
+      overall_sent: overall pos/neg/neu counts at sentence level
+      top_aspects: aspects ranked by mentions
+    """
+    df_sent = analyze_text_rows(df_in)
+    summary, examples = summarize(df_sent)
+
+    # Overall sentiment distribution (sentence-level)
+    overall_sent = (
+        df_sent["sentiment"]
+        .value_counts()
+        .rename_axis("sentiment")
+        .reset_index(name="count")
+    )
+    total = overall_sent["count"].sum()
+    overall_sent["share"] = overall_sent["count"] / total if total else 0
+
+    # "What criteria people care about most" = top aspects by mentions
+    if "mentions" in summary.columns:
+        top_aspects = summary.sort_values("mentions", ascending=False).head(10)
+    else:
+        top_aspects = pd.DataFrame()
+
+    return df_sent, summary, examples, overall_sent, top_aspects
 
 
 st.title("Customer Review Analyzer")
 st.caption("Built-in Datadog vs Dynatrace review dataset — no upload needed.")
 
-# Load built-in data
-with st.spinner("Loading built-in datasets..."):
-    df_all = load_builtin(DDOG_PATH, DT_PATH)
+df_all = load_builtin(DDOG_PATH, DT_PATH)
 
-missing = REQUIRED_COLS - set(df_all.columns)
-if missing:
-    st.error(f"Your built-in CSVs are missing required columns: {sorted(list(missing))}")
+# --- Debug panel to diagnose Dynatrace not showing ---
+with st.expander("Debug: what did the app load? (click to open)"):
+    st.write("Files present in app working directory:")
+    try:
+        st.write(sorted(os.listdir(".")))
+    except Exception as e:
+        st.write(f"Could not list directory: {e}")
+
+    st.write("Loaded dataframe shape:", df_all.shape)
+    st.write("Columns:", list(df_all.columns))
+
+    if not df_all.empty:
+        st.write("Products found (top 20):")
+        st.write(df_all["product"].value_counts().head(20))
+        st.write("Products normalized (top 20):")
+        st.write(df_all["product_norm"].value_counts().head(20))
+
+# Hard stop if nothing loaded
+if df_all.empty:
+    st.error(
+        "No data loaded. Make sure `reviews_ddog.csv` and/or `reviews_dt.csv` exist in the repo root."
+    )
     st.stop()
 
-# --- Optional upload (turn off by setting to False) ---
-ALLOW_UPLOAD = False
+# Required column check
+missing = REQUIRED_COLS - set(df_all.columns)
+if missing:
+    st.error(f"Missing required columns: {sorted(list(missing))}")
+    st.stop()
 
-if ALLOW_UPLOAD:
-    st.divider()
-    st.subheader("Optional: Upload your own CSV")
-    uploaded = st.file_uploader("Upload CSV", type=["csv"])
-    if uploaded is not None:
-        df_up = pd.read_csv(uploaded)
-        missing2 = REQUIRED_COLS - set(df_up.columns)
-        if missing2:
-            st.error(f"Uploaded CSV missing columns: {sorted(list(missing2))}")
-            st.stop()
-        df_all = df_up
-
-# Controls
+# Sidebar controls
 st.sidebar.header("Controls")
-mode = st.sidebar.radio("Which reviews to analyze?", ["Both", "Datadog only", "Dynatrace only"], index=0)
+product_choice = st.sidebar.radio("Analyze:", ["Both", "Datadog", "Dynatrace"], index=0)
 
-if mode == "Datadog only":
-    df = df_all[df_all["product"].str.lower().str.contains("datadog")]
-elif mode == "Dynatrace only":
-    df = df_all[df_all["product"].str.lower().str.contains("dynatrace")]
-else:
-    df = df_all
+def product_filter(df: pd.DataFrame, which: str) -> pd.DataFrame:
+    if which == "Datadog":
+        return df[df["product_norm"].str.contains("datadog")]
+    if which == "Dynatrace":
+        return df[df["product_norm"].str.contains("dynatrace")]
+    return df
 
-st.sidebar.write(f"Rows loaded: **{len(df):,}**")
+df = product_filter(df_all, product_choice)
+
+st.sidebar.write(f"Rows in selection: **{len(df):,}**")
 
 st.subheader("Dataset preview")
 st.dataframe(df.head(25), use_container_width=True)
 
-# Firm-size mix
-mix = firm_mix_table(df)
-if not mix.empty:
-    st.subheader("Firm-size mix (share of reviews)")
-    # show percent nicely
-    mix_show = mix.copy()
-    mix_show["share"] = (mix_show["share"] * 100).round(1).astype(str) + "%"
-    st.dataframe(mix_show, use_container_width=True)
+# Firm-size section (with pie chart)
+st.subheader("Firm-size mix")
+if product_choice in ["Datadog", "Dynatrace"]:
+    pie_for_firm(df, "datadog" if product_choice == "Datadog" else "dynatrace")
 else:
-    st.info("No `firm` column detected (optional). If you add a `firm` column with small / mid-market / enterprise, I'll summarize it here.")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Datadog**")
+        pie_for_firm(df_all, "datadog")
+    with col2:
+        st.markdown("**Dynatrace**")
+        pie_for_firm(df_all, "dynatrace")
+
+mix_tbl = firm_mix(df if product_choice != "Both" else df_all)
+if not mix_tbl.empty:
+    show = mix_tbl.copy()
+    show["share"] = (show["share"] * 100).round(1).astype(str) + "%"
+    st.dataframe(show, use_container_width=True)
+else:
+    st.info("No `firm` column detected or it doesn't contain small/mid-market/enterprise.")
 
 st.divider()
 
-# Run analysis
-run = st.button("Run analysis", type="primary")
+# Run analysis button
+run = st.button("Run analysis (aspects + sentiment)", type="primary")
 
 if run:
-    with st.spinner("Analyzing reviews (sentence-level sentiment + aspect tagging)..."):
-        df_sent = analyze_text_rows(df)
-        summary, examples = summarize(df_sent)
+    with st.spinner("Running sentiment + aspect analysis..."):
+        df_sent, summary, examples, overall_sent, top_aspects = run_full_analysis(df)
 
-    st.success("Done!")
+    st.success("Done.")
 
-    st.subheader("Aspect summary")
+    # Overall sentiment distribution
+    st.subheader("Overall sentiment distribution (sentence-level)")
+    overall_show = overall_sent.copy()
+    overall_show["share"] = (overall_show["share"] * 100).round(1).astype(str) + "%"
+    st.dataframe(overall_show, use_container_width=True)
+
+    # Top criteria users care about
+    st.subheader("Top criteria users mention most (Top 10 aspects)")
+    if not top_aspects.empty:
+        st.dataframe(top_aspects, use_container_width=True)
+    else:
+        st.info("No aspect mention counts found in summary output.")
+
+    # Aspect summary
+    st.subheader("Aspect summary (mentions + pos/neg/neu)")
     st.dataframe(summary, use_container_width=True)
 
-    st.subheader("Example snippets")
+    # Example snippets
+    st.subheader("Example snippets (by aspect)")
     st.dataframe(examples, use_container_width=True)
 
     # Downloads
@@ -155,4 +260,3 @@ if run:
         file_name="example_snippets.csv",
         mime="text/csv",
     )
-
