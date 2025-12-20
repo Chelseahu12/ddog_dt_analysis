@@ -7,3 +7,4 @@ nltk
 transformers
 torch
 sentence-transformers
+matplotlib
