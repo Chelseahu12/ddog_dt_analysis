@@ -1,314 +1,349 @@
-import os
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 
-# Import your pipeline functions
-# sentiment_classifier.py should be in the same folder as app.py
-from sentiment_classifier import analyze_text_rows, summarize
+from sentiment_classifier import analyze_text_rows, summarize  # assumes these exist in your file
 
-# ----------------------------
-# Page config + simple blue UI
-# ----------------------------
+# -----------------------------
+# Page + style
+# -----------------------------
 st.set_page_config(
     page_title="Customer Review Analyzer",
     page_icon="💬",
     layout="wide",
 )
 
-st.markdown(
-    """
-    <style>
-      /* Headings */
-      h1, h2, h3 { color: #0B3D91; }  /* deep-ish blue */
+BLUE_CSS = """
+<style>
+/* overall */
+.block-container { padding-top: 2rem; }
 
-      /* Buttons */
-      div.stButton > button {
-        background-color: #0B3D91;
-        color: white;
-        border-radius: 10px;
-        border: 0px;
-        padding: 0.6rem 1rem;
-      }
-      div.stButton > button:hover {
-        background-color: #124FB5;
-        color: white;
-      }
+/* make headers feel less “robotic” */
+h1, h2, h3 { letter-spacing: -0.02em; }
 
-      /* Info boxes */
-      .stAlert {
-        border-left: 6px solid #0B3D91 !important;
-      }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+/* subtle blue callouts */
+.blue-chip {
+  display:inline-block;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(30, 136, 229, 0.12);
+  color: #0b2e57;
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
 
-# ----------------------------
-# File paths
-# ----------------------------
+/* winner highlight */
+.winner {
+  display:inline-block;
+  padding: 0.35rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(25, 118, 210, 0.18);
+  border: 1px solid rgba(25, 118, 210, 0.35);
+  color: #0b2e57;
+  font-weight: 700;
+}
+
+/* small helper text */
+.muted { color: rgba(0,0,0,0.55); }
+</style>
+"""
+st.markdown(BLUE_CSS, unsafe_allow_html=True)
+
+# -----------------------------
+# Config
+# -----------------------------
 DDOG_CSV = "reviews_ddog.csv"
 DT_CSV = "reviews_dt.csv"
 
-REQUIRED_COLS = {"id", "source", "text"}  # product is optional; we set it if missing
-OPTIONAL_COLS = {"firm"}  # small / mid-market / enterprise
+# If your sentiment model outputs labels like POSITIVE/NEGATIVE/NEUTRAL,
+# these are the canonical names we’ll use in charts.
+SENTIMENT_ORDER = ["negative", "neutral", "positive"]
 
-# ----------------------------
+
+# -----------------------------
 # Helpers
-# ----------------------------
-def _validate_df(df: pd.DataFrame, label: str):
-    missing = REQUIRED_COLS - set(df.columns)
-    if missing:
-        st.error(f"{label} is missing required columns: {sorted(list(missing))}")
-        st.stop()
-
-    # Clean types
+# -----------------------------
+def _normalize_cols(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
-    df["text"] = df["text"].fillna("").astype(str).str.strip()
-    df = df[df["text"].str.len() > 0]
 
-    # Normalize firm if present
-    if "firm" in df.columns:
-        df["firm"] = (
-            df["firm"]
-            .fillna("NA")
-            .astype(str)
-            .str.strip()
-            .str.lower()
-            .replace({"mid market": "mid-market", "midmarket": "mid-market"})
-        )
+    # normalize col names
+    df.columns = [c.strip().lower() for c in df.columns]
+
+    # required columns
+    required = {"id", "product", "source", "text"}
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(f"Missing required columns: {sorted(list(missing))}")
+
+    # optional firm column
+    if "firm" not in df.columns:
+        df["firm"] = pd.NA
+
+    # normalize values
+    df["product"] = df["product"].astype(str).str.strip().str.lower()
+    df["source"] = df["source"].astype(str).str.strip()
+    df["text"] = df["text"].astype(str)
+
+    # firm normalization if present
+    df["firm"] = df["firm"].astype(str).str.strip().str.lower().replace({"nan": pd.NA, "none": pd.NA, "na": pd.NA})
 
     return df
 
 
-@st.cache_data(show_spinner=False)
-def load_reviews() -> pd.DataFrame:
-    if not os.path.exists(DDOG_CSV):
-        st.error(f"Missing {DDOG_CSV} in repo root.")
-        st.stop()
-    if not os.path.exists(DT_CSV):
-        st.error(f"Missing {DT_CSV} in repo root.")
-        st.stop()
+@st.cache_data
+def load_reviews(ddog_path: str, dt_path: str) -> pd.DataFrame:
+    ddog = pd.read_csv(ddog_path)
+    dt = pd.read_csv(dt_path)
+    ddog = _normalize_cols(ddog)
+    dt = _normalize_cols(dt)
 
-    dd = pd.read_csv(DDOG_CSV)
-    dt = pd.read_csv(DT_CSV)
-
-    dd = _validate_df(dd, "Datadog CSV")
-    dt = _validate_df(dt, "Dynatrace CSV")
-
-    # Ensure product column exists + standardized
-    dd["product"] = "datadog"
+    # safety: force correct product labels based on file
+    ddog["product"] = "datadog"
     dt["product"] = "dynatrace"
 
-    # Make ids unique across both so merges don’t collide
-    dd["id"] = dd["id"].astype(str).apply(lambda x: f"ddog_{x}")
+    # make ids unique across products if you reused 1..75 twice
+    ddog["id"] = ddog["id"].astype(str).apply(lambda x: f"ddog_{x}")
     dt["id"] = dt["id"].astype(str).apply(lambda x: f"dt_{x}")
 
-    out = pd.concat([dd, dt], ignore_index=True)
+    return pd.concat([ddog, dt], ignore_index=True)
+
+
+def firm_mix_table(df: pd.DataFrame) -> pd.DataFrame:
+    if df["firm"].isna().all():
+        return pd.DataFrame(columns=["product", "firm", "count", "share"])
+
+    tmp = df.dropna(subset=["firm"]).copy()
+    g = tmp.groupby(["product", "firm"], as_index=False).size().rename(columns={"size": "count"})
+    g["share"] = g.groupby("product")["count"].transform(lambda s: (s / s.sum()) * 100.0)
+    return g.sort_values(["product", "count"], ascending=[True, False])
+
+
+def plot_pie(labels, values, title: str):
+    fig, ax = plt.subplots(figsize=(5.2, 4.4))
+    ax.pie(
+        values,
+        labels=labels,
+        autopct="%1.1f%%",
+        startangle=90,
+        textprops={"fontsize": 11},
+    )
+    ax.set_title(title, fontsize=16, pad=10)
+    ax.axis("equal")
+    st.pyplot(fig, clear_figure=True)
+
+
+def sentiment_pie_from_sentence_df(df_sent: pd.DataFrame, title: str):
+    # expects df_sent has column "sentiment" with values: negative/neutral/positive (lowercase)
+    counts = df_sent["sentiment"].value_counts(dropna=False)
+
+    labels = []
+    values = []
+    for s in SENTIMENT_ORDER:
+        labels.append(s)
+        values.append(int(counts.get(s, 0)))
+
+    plot_pie(labels, values, title)
+
+
+def top_aspects_table(summary_aspect: pd.DataFrame, product: str) -> pd.DataFrame:
+    # expects columns: product, aspect, mentions, pos_share, neu_share, neg_share, net_sentiment
+    out = summary_aspect[summary_aspect["product"] == product].copy()
+    out = out.sort_values("mentions", ascending=False)
     return out
 
 
-def firm_size_pie(df: pd.DataFrame, title: str):
-    # Only show if firm exists and has meaningful values
-    if "firm" not in df.columns:
-        st.info("No firm column detected. Add a firm column (small / mid-market / enterprise) to enable firm-size mix.")
-        return
-
-    counts = (
-        df[df["firm"].isin(["small", "mid-market", "enterprise"])]
-        .groupby("firm")["id"]
-        .count()
-        .sort_values(ascending=False)
-    )
-
-    if counts.empty:
-        st.info("Firm column present, but no values matched: small / mid-market / enterprise.")
-        return
-
-    fig, ax = plt.subplots(figsize=(6, 6), dpi=160)
-
-    # Use legend instead of text labels around the pie -> avoids cropping
-    wedges, _, autotexts = ax.pie(
-        counts.values,
-        labels=None,
-        autopct=lambda p: f"{p:.1f}%",
-        startangle=90,
-        pctdistance=0.7,
-        textprops={"fontsize": 12},
-    )
-
-    ax.set_title(title, fontsize=16)
-    ax.legend(
-        wedges,
-        [f"{k} ({v})" for k, v in zip(counts.index, counts.values)],
-        title="Firm size",
-        loc="center left",
-        bbox_to_anchor=(1.0, 0.5),
-        frameon=False,
-    )
-
-    plt.tight_layout()
-    st.pyplot(fig, use_container_width=True)
+def aspect_compare_ranked(summary_aspect: pd.DataFrame) -> pd.DataFrame:
+    # rank aspects by total mentions across both products
+    g = summary_aspect.groupby("aspect", as_index=False)["mentions"].sum()
+    return g.sort_values("mentions", ascending=False)
 
 
-@st.cache_data(show_spinner=True)
-def run_pipeline(df_reviews: pd.DataFrame):
-    """
-    Runs your earlier analysis:
-    - sentence_level: one row per sentence with sentiment + aspect tags
-    - summary_by_aspect: aggregated stats per product+aspect
-    - example_snippets: example sentences per aspect/sentiment
-    """
-    df_sent = analyze_text_rows(df_reviews)
-    summary_by_aspect, examples = summarize(df_sent)
-    return df_sent, summary_by_aspect, examples
+def winner_label(net_a: float, net_b: float):
+    if pd.isna(net_a) or pd.isna(net_b):
+        return None
+    if net_a > net_b:
+        return "datadog"
+    if net_b > net_a:
+        return "dynatrace"
+    return "tie"
 
 
-def sentiment_bar(df_sent: pd.DataFrame, title: str):
-    # Expect df_sent to have columns: product, sentiment
-    if not {"product", "sentiment"}.issubset(df_sent.columns):
-        st.warning("Sentiment output missing expected columns (product, sentiment).")
-        return
-
-    counts = (
-        df_sent.groupby(["sentiment"])["sentence"]
-        .count()
-        .reindex(["neg", "neu", "pos"], fill_value=0)
-    )
-
-    fig, ax = plt.subplots(figsize=(6, 4), dpi=160)
-    ax.bar(counts.index, counts.values)
-    ax.set_title(title)
-    ax.set_xlabel("Sentiment")
-    ax.set_ylabel("# sentences")
-    plt.tight_layout()
-    st.pyplot(fig, use_container_width=True)
+def pie_from_shares(pos_share, neu_share, neg_share, title: str):
+    labels = ["positive", "neutral", "negative"]
+    values = [pos_share, neu_share, neg_share]
+    fig, ax = plt.subplots(figsize=(4.8, 3.9))
+    ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90, textprops={"fontsize": 10})
+    ax.set_title(title, fontsize=14, pad=8)
+    ax.axis("equal")
+    st.pyplot(fig, clear_figure=True)
 
 
-def top_aspects_table(summary_by_aspect: pd.DataFrame, product: str, top_n: int = 10):
-    # Expect columns: product, aspect, mentions, neg_share, pos_share, neu_share, net_sentiment (based on your earlier outputs)
-    if not {"product", "aspect", "mentions"}.issubset(summary_by_aspect.columns):
-        st.warning("Aspect summary missing expected columns (product, aspect, mentions).")
-        return
+# -----------------------------
+# Run analysis (cached)
+# -----------------------------
+@st.cache_data
+def run_full_analysis(df: pd.DataFrame):
+    # sentence-level
+    df_sent = analyze_text_rows(df)
 
-    sub = summary_by_aspect[summary_by_aspect["product"] == product].copy()
-    if sub.empty:
-        st.info(f"No aspect summary rows found for product='{product}'.")
-        return
+    # aspect summary + example snippets
+    summary_aspect, examples = summarize(df_sent)
 
-    # Make it more readable
-    cols_to_show = [c for c in ["aspect", "mentions", "pos_share", "neu_share", "neg_share", "net_sentiment"] if c in sub.columns]
-    sub = sub.sort_values("mentions", ascending=False).head(top_n)[cols_to_show]
-
-    # Pretty formatting
-    for c in ["pos_share", "neu_share", "neg_share", "net_sentiment"]:
-        if c in sub.columns:
-            sub[c] = sub[c].astype(float)
-
-    st.dataframe(sub, use_container_width=True)
+    return df_sent, summary_aspect, examples
 
 
-# ----------------------------
-# App UI
-# ----------------------------
-df_all = load_reviews()
+# -----------------------------
+# App
+# -----------------------------
+df = load_reviews(DDOG_CSV, DT_CSV)
 
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Welcome", "Datadog", "Dynatrace", "Compare"], index=0)
+# Sidebar navigation
+st.sidebar.markdown('<span class="blue-chip">Navigation</span>', unsafe_allow_html=True)
+page = st.sidebar.radio(
+    label="",
+    options=["Welcome", "Compare", "Datadog", "Dynatrace"],
+    index=0
+)
 
-# Only run model once per refresh (cached)
-df_sent_all, summary_all, examples_all = run_pipeline(df_all)
+# Always compute analysis once (cached)
+with st.spinner("Running aspect + sentiment analysis…"):
+    df_sent, summary_aspect, examples = run_full_analysis(df)
 
+# -----------------------------
+# Pages
+# -----------------------------
 if page == "Welcome":
     st.title("Customer Review Analyzer")
-    st.write("Built-in Datadog vs Dynatrace review dataset — no upload needed.")
+    st.markdown(
+        """
+        <div class="muted">
+        I built this to quickly sanity-check what real users praise (and complain about) when they talk about observability tools.
+        It’s opinionated, lightweight, and meant for fast “what actually matters?” reads — not perfect NLP.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-    c1, c2 = st.columns([2, 1])
-    with c1:
-        st.subheader("What you can do here")
-        st.markdown(
-            """
-            - See **firm-size mix** (pie chart)
-            - See **sentiment distribution** (pos / neutral / neg)
-            - See **what criteria users talk about most** (top aspects by mentions)
-            - Compare **Datadog vs Dynatrace** side-by-side
-            """
-        )
-    with c2:
-        st.subheader("Dataset size")
-        st.metric("Total reviews", len(df_all))
-        st.metric("Datadog reviews", int((df_all["product"] == "datadog").sum()))
-        st.metric("Dynatrace reviews", int((df_all["product"] == "dynatrace").sum()))
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Total reviews", len(df))
+    c2.metric("Datadog reviews", int((df["product"] == "datadog").sum()))
+    c3.metric("Dynatrace reviews", int((df["product"] == "dynatrace").sum()))
 
     st.subheader("Quick preview")
-    st.dataframe(df_all.head(25), use_container_width=True)
+    st.dataframe(df.head(12), use_container_width=True)
 
-
-elif page == "Datadog":
-    st.title("Datadog")
-    df = df_all[df_all["product"] == "datadog"].copy()
-    df_sent = df_sent_all[df_sent_all["product"] == "datadog"].copy()
-
-    st.subheader("Dataset preview")
-    st.dataframe(df.head(25), use_container_width=True)
-
-    st.subheader("Firm-size mix")
-    firm_size_pie(df, "Datadog firm-size mix (share of reviews)")
-
-    st.subheader("Sentiment (sentence-level)")
-    sentiment_bar(df_sent, "Datadog sentiment (sentence-level)")
-
-    st.subheader("Top criteria users mention (aspects)")
-    top_aspects_table(summary_all, product="datadog", top_n=12)
-
-
-elif page == "Dynatrace":
-    st.title("Dynatrace")
-    df = df_all[df_all["product"] == "dynatrace"].copy()
-    df_sent = df_sent_all[df_sent_all["product"] == "dynatrace"].copy()
-
-    st.subheader("Dataset preview")
-    st.dataframe(df.head(25), use_container_width=True)
-
-    st.subheader("Firm-size mix")
-    firm_size_pie(df, "Dynatrace firm-size mix (share of reviews)")
-
-    st.subheader("Sentiment (sentence-level)")
-    sentiment_bar(df_sent, "Dynatrace sentiment (sentence-level)")
-
-    st.subheader("Top criteria users mention (aspects)")
-    top_aspects_table(summary_all, product="dynatrace", top_n=12)
-
+    st.subheader("What you’ll see in here")
+    st.markdown(
+        """
+        - firm-size mix (pie charts)
+        - sentiment breakdown (pos / neutral / neg)
+        - what people talk about most (ranked by mentions)
+        - for each aspect: Datadog vs Dynatrace side-by-side, with a simple “winner” callout
+        """
+    )
 
 elif page == "Compare":
     st.title("Compare: Datadog vs Dynatrace")
 
-    st.subheader("Firm-size mix (by product)")
-    if "firm" in df_all.columns:
-        # table + pies
-        mix = (
-            df_all[df_all["firm"].isin(["small", "mid-market", "enterprise"])]
-            .groupby(["product", "firm"])["id"]
-            .count()
-            .reset_index(name="count")
-        )
-        mix["share"] = mix.groupby("product")["count"].transform(lambda x: x / x.sum())
-        st.dataframe(mix.sort_values(["product", "count"], ascending=[True, False]), use_container_width=True)
+    # Firm size mix
+    st.subheader("Firm-size mix")
+    mix = firm_mix_table(df)
 
-        col1, col2 = st.columns(2)
-        with col1:
-            firm_size_pie(df_all[df_all["product"] == "datadog"], "Datadog firm-size mix")
-        with col2:
-            firm_size_pie(df_all[df_all["product"] == "dynatrace"], "Dynatrace firm-size mix")
+    if mix.empty:
+        st.info("No firm column found. If you add firm = small / mid-market / enterprise, I’ll chart it.")
     else:
-        st.info("No firm column detected in your CSVs.")
+        st.dataframe(mix, use_container_width=True)
 
-    st.subheader("Top aspects (mentions)")
-    # show top aspects for each side
-    c1, c2 = st.columns(2)
-    with c1:
-        st.markdown("### Datadog")
-        top_aspects_table(summary_all, product="datadog", top_n=10)
-    with c2:
-        st.markdown("### Dynatrace")
-        top_aspects_table(summary_all, product="dynatrace", top_n=10)
+        left, right = st.columns(2)
+        with left:
+            dd = mix[mix["product"] == "datadog"]
+            plot_pie(dd["firm"].tolist(), dd["count"].tolist(), "Datadog firm-size mix")
+        with right:
+            dt = mix[mix["product"] == "dynatrace"]
+            plot_pie(dt["firm"].tolist(), dt["count"].tolist(), "Dynatrace firm-size mix")
+
+    # Sentiment breakdown (sentence-level)
+    st.subheader("Overall sentiment breakdown (sentence-level)")
+    l2, r2 = st.columns(2)
+    with l2:
+        sentiment_pie_from_sentence_df(df_sent[df_sent["product"] == "datadog"], "Datadog sentiment")
+    with r2:
+        sentiment_pie_from_sentence_df(df_sent[df_sent["product"] == "dynatrace"], "Dynatrace sentiment")
+
+    # Top aspects tables
+    st.subheader("Top aspects (ranked by mentions)")
+    l3, r3 = st.columns(2)
+    with l3:
+        st.caption("Datadog")
+        st.dataframe(top_aspects_table(summary_aspect, "datadog").head(12), use_container_width=True)
+    with r3:
+        st.caption("Dynatrace")
+        st.dataframe(top_aspects_table(summary_aspect, "dynatrace").head(12), use_container_width=True)
+
+    # Aspect-by-aspect pies
+    st.subheader("Aspect-by-aspect sentiment (side-by-side)")
+    ranked = aspect_compare_ranked(summary_aspect)
+
+    # Only show the top N to keep the page usable
+    top_n = st.slider("How many aspects to show?", min_value=5, max_value=25, value=12, step=1)
+
+    for _, row in ranked.head(top_n).iterrows():
+        aspect = row["aspect"]
+
+        a = summary_aspect[(summary_aspect["product"] == "datadog") & (summary_aspect["aspect"] == aspect)]
+        b = summary_aspect[(summary_aspect["product"] == "dynatrace") & (summary_aspect["aspect"] == aspect)]
+
+        if a.empty or b.empty:
+            continue
+
+        a = a.iloc[0]
+        b = b.iloc[0]
+
+        w = winner_label(a.get("net_sentiment"), b.get("net_sentiment"))
+
+        # Row header
+        if w == "datadog":
+            st.markdown(f'<span class="winner">{aspect} — Datadog wins (higher net sentiment)</span>', unsafe_allow_html=True)
+        elif w == "dynatrace":
+            st.markdown(f'<span class="winner">{aspect} — Dynatrace wins (higher net sentiment)</span>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<span class="blue-chip">{aspect}</span>', unsafe_allow_html=True)
+
+        cL, cR = st.columns(2)
+
+        with cL:
+            pie_from_shares(
+                pos_share=a["pos_share"],
+                neu_share=a["neu_share"],
+                neg_share=a["neg_share"],
+                title=f"Datadog — {aspect} (mentions: {int(a['mentions'])})",
+            )
+
+        with cR:
+            pie_from_shares(
+                pos_share=b["pos_share"],
+                neu_share=b["neu_share"],
+                neg_share=b["neg_share"],
+                title=f"Dynatrace — {aspect} (mentions: {int(b['mentions'])})",
+            )
+
+        st.divider()
+
+elif page in ["Datadog", "Dynatrace"]:
+    product = "datadog" if page == "Datadog" else "dynatrace"
+    st.title(page)
+
+    sub = df[df["product"] == product].copy()
+    st.caption(f"{len(sub)} reviews in the dataset")
+
+    st.subheader("Dataset preview")
+    st.dataframe(sub.head(20), use_container_width=True)
+
+    st.subheader("Sentiment breakdown (sentence-level)")
+    sentiment_pie_from_sentence_df(df_sent[df_sent["product"] == product], f"{page} sentiment")
+
+    st.subheader("Top aspects (ranked by mentions)")
+    st.dataframe(top_aspects_table(summary_aspect, product), use_container_width=True)
+
+    st.subheader("Example snippets (what the model pulled)")
+    st.dataframe(examples[examples["product"] == product].head(30), use_container_width=True)
