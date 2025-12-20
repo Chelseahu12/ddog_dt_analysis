@@ -1,2 +1,2 @@
-# datadog_dt_analysis
+# datadog_dynatrace_analysis
 Customer sentiment analysis - will update later
