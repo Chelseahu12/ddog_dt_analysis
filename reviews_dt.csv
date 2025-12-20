@@ -1,0 +1,828 @@
+﻿id,product,source,text,firm
+1,dynotrace,G2,"What do you like best about Dynatrace?
+The way it automatically maps out services and dependencies is genuinely helpful, instead of guessing where an issue might be coming from, I can usually spot it pretty quickly. I also like how the dashboards pull everything together in a way that actually makes sense, even when there’s a lot of data flying around.
+
+
+Another thing I appreciate is the alerts.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There’s a lot of information packed into the dashboards, and it takes a while to get comfortable with where everything is and what each view actually means
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Instead of manually digging through logs or bouncing between different tools, it ties everything together and points me toward the actual root cause. That alone saves a ton of time during incidents.",mid-market
+2,dynotrace,G2,"What do you like best about Dynatrace?
+Honestly, Dynatrace kinda blew my mind with how simple it is to get rolling, considering the beast it is under the hood. Setup? Barely broke a sweat—super clear docs, and the UI’s not a labyrinth, which is rare for stuff this technical. I’m in there all the time, poking around because, let’s be real, it’s loaded. Full-stack monitoring, peeking at user experience, whatever—I can pretty much do it all.
+
+
+Plugging it into other tools? Piece of cake. Cloud stuff, CI/CD pipelines, Slack or whatever you’re using—it just clicks together. I haven’t needed support much (thankfully), but the couple times I did, they actually answered fast and knew what they were talking about. Wild.
+
+
+The real user monitoring? Total game-changer. You get to see what actual people are doing, live—not just boring stats. And session replay? It’s like CSI for user journeys. I can finally figure out what made someone rage-quit.
+
+
+The metrics are super detailed, too. Response times, error rates, Apdex—so you can keep tabs on whether things are cruising or crashing. Plus, if you’re into synthetic checks, custom dashboards, or just wanna nerd out over deep-dive data from the infrastructure all the way up to the front-end, it’s all there. No joke, it’s like peeking under the hood of the whole operation.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Man, jumping into this thing? Kinda feels like being tossed into the deep end without floaties. The learning curve’s no joke, especially if you’re brand new. And don’t even get me started on the price—it’s kinda steep, honestly. Not really friendly if you’re running on a shoestring budget or if your team’s tiny. Oh, and those dashboards? They throw so much info at you, it’s like staring at a Where’s Waldo page, but with graphs. If you don’t tweak ‘em, you’ll drown in the chaos. Plus, sometimes they take forever to load. Like, go-make-a-coffee slow. Not exactly a vibe.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Let me tell ya, Dynatrace is kind of a lifesaver. Seriously, it untangles so many headaches across our tech mess—it keeps tabs on basically everything. When it comes to our websites and apps, it’s like having x-ray vision: we see load times, errors, the whole user experience in real time. No more waiting for angry customer emails; we can squash problems before they blow up.
+
+
+Now, session replay? Total game changer. Sometimes I swear users find new ways to break things, but with replay, we can actually watch what happened—like “oh, THAT’S why the button didn’t work.” No more wild guessing on the front-end stuff.
+
+
+And then, on the infrastructure side, it doesn’t just stop at the basics. It’s got its hooks in our containers, networks, even the big enterprise machines. We get this bird’s-eye view of how everything connects and runs. Dependencies, bottlenecks, weird blips—you name it, we spot it.
+
+
+The alerting and log stuff is slick too. We don’t have to bounce between a million tools to figure out what’s on fire. It just lets us know, “Hey, go fix this right now.” So yeah, everything’s in one spot, and it just makes keeping our digital world running a whole lot less stressful. If something goes sideways, we’re on it before anyone even notices.",enterprise
+3,dynotrace,G2,"What do you like best about Dynatrace?
+I like the complete visibility it offers over applications and infrastructure. The ability to track user actions is excellent for understanding real behavior, identifying issues, and tracking where they are. I constantly use it to support my understanding of the applications.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Sometimes I find its usability complex, especially at the beginning when you don't have experience with the tool.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Before, it was difficult to have visibility of the actions in our applications. Many errors were not monitored, and many problems were difficult to have evidence for analysis.",enterprise
+4,dynotrace,G2,"What do you like best about Dynatrace?
+The level of details Dynatrace provides is too good. You can dig in down and down and get to the root of the issue.
+
+Pretty easy to implement.
+
+Their customer support is also top notch. While on a dashboard or any page you can connect with support and then work with them to understand the feature or more.
+
+Integration with other tools is also pretty straight.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Quite tough to learn and understand how to use the tool. Basically learning curve is high.
+
+Pretty expensive. If not configured correctly, you will bleed money.
+
+Just due to learning curve, we found frequency of users using app going down
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace helps us address several critical challenges in our infrastructure, Kubernetes, and application environments
+
+1. End-to-End Observability Across Hybrid Environments - Dynatrace provides a unified observability platform across servers, containers, applications, and network dependencies. We can trace a single user transaction end-to-end, from front-end to database
+
+2.Kubernetes and Microservices Visibility - Dynatrace automatically maps and monitors Kubernetes workloads, namespaces, and services, showing real-time health and performance metrics
+
+3. Improved Application Performance and User Experience - With Real User Monitoring (RUM) and synthetic tests, we monitor real-world user interactions and simulate business-critical transactions.",enterprise
+5,dynotrace,G2,"What do you like best about Dynatrace?
+It has the great ability to provide deep, real time insights into the performance of applications and infrastructure. It's an amazing and powerful tool for monitoring complex environment. It has the real the real time monitoring, automatic discovery of dependencies and clear visualisation of problems that saves a lot of time while troubleshooting.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Nothing for now, everything is working perfectly.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+It helps to solve the problems related to visibility cross complex, and modern systems. In large environment with lots of microservices, cloud platforms, and integrations, it is highly chances that issues can get easily slipped through. Dynatrace helps in automatically discovers and monitoring everything end to end, so you have the ability to see exactly where problems start and how they impact users.",mid-market
+6,dynotrace,G2,"What do you like best about Dynatrace?
+I like most about Dynatrace , it shows the disk storage , cpu usage of every server. It helps to monitor very hosts
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There is not much dislike about Dynatrace.it will trigger more alerts if it not tuned correctly. Licence is high cost for this usage
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Monitoring the network issues and all the servers regarding disk space , CPU usage. Storage of all the process also to be appeared by using Dynatrace",mid-market
+7,dynotrace,G2,"What do you like best about Dynatrace?
+The implementation process is simple, and the user interface is highly intuitive, which makes it easy to use even for newcomers to the platform. The product keeps up with market trends by consistently adding new features and offering frequent updates. Customer support is very responsive when it comes to addressing critical issues. Additionally, it integrates well with various third-party platforms, including ServiceNow, PagerDuty, and Microsoft Teams for alert notifications.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+So far, in my work experience, I haven't encountered anything noteworthy.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+The AI analysis of Davis is very good and almost accurate to find the root cause entities which helps to reduce the MTTR for the incident for most of the cases, also the Dashboards are now user interactive with new features like Notebook and Davis AI forecasting.",enterprise
+8,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace offers a great platform for combined observability and visibility for my infrastructure, apps and services. It offers a big variety of features, that are easy to integrate and install.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrace has a big learning curve. Most things are user friendly but require a lot of reading to get used to. Also at times the customer support at tickets is a bit too slow
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace helps to combine all observability tools in one platform. There is no need to have many different platforms, views logs and alerts on different platforms, you can see everything in the Dynatrace tenant and its dashboards.",mid-market
+9,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace is a great solution for monitoring applications and infrastructure. The dashboard is very good, shows a lot of different data in one place, so we not need go different tools. I like how it show real-time performance and alerting is also fast.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Setup for some custom metric is little confusing, need more simple steps. Documentation is big but not always easy to understand.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace helps us with a lot of different functions, from user clicks to backend server. It help us find root cause fast, no need guess or wait long time. Great application and infrastructure monitoring software.",mid-market
+10,dynotrace,G2,"What do you like best about Dynatrace?
+1) It provides end to end observability capabilities of applications to discover the issues quickly.
+
+2) Automated configurations which reduces the error possibilities that can come during manual setup.
+
+3) It offers great support for cloud native applications such as AWS, Azure and GCP cloud.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+1) Highly costly that small companies may not afford to implement.
+
+2) Less option to customize dashboards as per the requirements.
+
+3) Data center or on-premise support are limited.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace is a popular platform which offers complete visibility of applications running on cloud to effectively monitor them at the real-time and it is helping our DevOps and Cloud teams to monitor the applications running on multiple environments to get better insights to maintain the health of systems.",enterprise
+11,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace’s Davis AI engine automatically pinpoints the root cause of issues, which saves huge time compared to manual troubleshooting.
+
+Dynatrace continuously monitors without gaps, so performance bottlenecks and anomalies are detected instantly.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Licensing can get expensive and sometimes confusing when scaling across multiple environments.
+
+Some advanced customization and integrations require extra effort or external tools.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+To trace application requests end-to-end and quickly identify bottlenecks.
+
+For centralized log monitoring, correlation with issues, and root cause analysis.",small
+12,dynotrace,G2,"What do you like best about Dynatrace?
+Using the tracing of requests through multiple microservices, I can find where the request is stalling out and or failing. It has helped me and my team get to the root of many problems without having to write custom code.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There is so many options and so much power in the platform that users regularly get lost or confused as they navigate through the different pages, options and possible actions. The good news is that with a few hours of practice you learn where and how to do the work. To find the gold - it really does work. Seriously
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+it gives me insights into how the app is being used in different parts of the world. A perfect example, is needing to see how the users are using my application on a distant continent. It gave me visibility into what is being clicked on, what browsers are being used and what OS's are being used. All of which I need to know what to best build for my customers.",mid-market
+13,dynotrace,G2,"What do you like best about Dynatrace?
+The Problems App is my personal favorite feature within Dynatrace, It may be very underrated but it is truly amazing and saves a lot of time when you are working on an issue. It provides a quick summary of the issue with the time when it occurred along with a link to the resources impacted so you can dig deeper. I have previously used other monitoring tools such as New Reclic or Wily Introscope but the experience with Dynatrace is so much better. Installation of the OneAgent is super easy and the navigation is very intutive. Customer support is always very resourceful and quick in their responses. We have been able to integrate Dynatrace with Cloud Foundry, GCP Compute Instances and Kubernetes very easily. In my role as a Support Engineer I use Dynatrace every day, either to monitor the Production environment using various Dashobards, triaging Production Issues using Problems App, adding and modifying Maintenance Windows to snooze alerts during Deployments.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+One of feature within Dynatrace that I have challenges with is the Alerting Profiles. It cannot exlude a single entity from a management zone from being picked up by the alerting profile, you will need to identify and include every single entity you need except the one you don't want which is tedious. I hope they can add feature which lets you select entities that you can exlude from alerting profiles.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace helps us solve various issues including service failure rate increase, response time slowness due to backend issues, infrastruture availability and website availibility using synthetic monitoring.",mid-market
+14,dynotrace,G2,"What do you like best about Dynatrace?
+The ability to pull in so many different sources of information into one solution and make that available to your entire organization.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+They know the value they provide and charge you accordingly, it can be very difficult to digest the cost of the tool and it can be difficult to manage your organization's consumption of licensing.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+They're broad integrations make it easy to consolidate what used to be multiple tools into one platform. Also, enabling the ability to take what used to just be IT performance information and extract business data from that is a great value add. The automated root cause analysis was also a huge boon to reducing our down time from outages.",small
+15,dynotrace,G2,"What do you like best about Dynatrace?
+Perform a thorough granular analysis and monitoring of the application
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Being so granular delivers many results and options that ultimately prove counterproductive as it confuses the user.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+the problem is that it is too granular and causes the analyst to become confused and draw ambiguous conclusions",enterprise
+16,dynotrace,G2,"What do you like best about Dynatrace?
+The technology stack they support and the insights you get out of them
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The fact that in quite some cases the documentation isn't up to date whih leads up to unessary support tickets.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+In general the MTTR is far lower then before. This helps us to keep incident cost lower then before. Furhtermore we use it troughout DTAP and try to identify issues as early as possible.",enterprise
+17,dynotrace,G2,"What do you like best about Dynatrace?
+The ease of deployment, coupled with the speed of data becoming workable. In addition, the visualizations allows for near instant impactful reporting to stakeholders at every level.
+
+
+This, coupled with deep insights into application security, log insights, and code level debugging, make for a powerful cocktail in the observability space.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The current ui has many bugs and annoyances that need to be ironed out. In addition, the elimination of management zones is, for lack of a better word, painful. There could have been more consideration for making DQL more user friendly as well. I don't like having to be a DBA to get functionality out of it.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Pretty much all of our observability and monitoring runs primarily through DT, and it is core to our SRE and Observability practice.",enterprise
+18,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace excels in API monitoring, data analysis, and business analysis, making it incredibly useful for our day-to-day operations. What stands out most is its ease of use and the number of features it offers. Despite being a powerful tool, the interface is intuitive, which made the implementation process smooth for our team. Its integration with our existing systems was seamless, and the platform offers great visibility into all data points. Customer support has been responsive and helpful, ensuring we get the most out of the tool. We use this daily to track the issue and successive sessions
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The only downside is that Dynatrace's pricing can be a bit on the higher side, especially for smaller teams or businesses just getting started. Additionally, while the platform is feature-rich, it can take some time to fully leverage all its capabilities. A more user-friendly onboarding experience would make it even better.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace has been incredibly helpful for our API monitoring and data/business analysis. It offers real-time insights into API performance, allowing us to quickly address any issues and minimize downtime. The platform also simplifies data analysis by automatically correlating information, helping us make faster, more informed decisions. With its seamless integration into our existing systems, Dynatrace has streamlined our workflows and enhanced overall productivity, enabling us to focus more on growth and less on troubleshooting.",small
+19,dynotrace,G2,"What do you like best about Dynatrace?
+DT is very useful when it comes to identifying problems. I enjoy all the different offerings it provides to get to the root cause.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Today on the SaaS solution it seems like I need to reload a lot of the apps whenever I spend a couple of minutes on one. For instance I can be looking at services in a management zone and select one of my services. After doing some analysis and clicking the service app once more, I would hope it take me to see all my services again but this is not the case it just displays the same service i was just seeing.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+DT has been instrumental when it comes to problem finding and it has enable me to find root cause faster and push fixes almost immediate once the root cause has been identified or even rollback to a previous working version.",enterprise
+20,dynotrace,G2,"What do you like best about Dynatrace?
+ts AI-powered insights through Davis AI, which automatically identifies root causes of performance issues, saving time on troubleshooting. Additionally, its full-stack observability provides visibility across all layers of infrastructure and applications, ensuring proactive issue resolution. The real-time monitoring and ability to scale in complex environments—whether cloud, on-premise, or hybrid—makes it a powerful tool for optimizing both performance and user experience.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+it's easy of implemmentation and using and easy of integration with multiple platforms
+
+the UI may feel overwhelming for users unfamiliar with full-stack monitoring platforms. Lastly, customization options for dashboards and reports, though powerful, sometimes require more flexibility.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace helps solve problems related to application performance monitoring, infrastructure visibility, and troubleshooting in complex environments. It identifies bottlenecks and root causes of performance issues through AI-powered insights, which benefits users by reducing downtime, improving system reliability, and optimizing user experiences. For businesses, this means faster issue resolution, increased efficiency, and better decision-making based on real-time data. It also simplifies the management of large-scale, multi-cloud, or hybrid infrastructures, ensuring seamless performance across different environments.",small
+21,dynotrace,G2,"What do you like best about Dynatrace?
+I appreciate the depth of information available from the platform, and the different services offered that make troubleshooting and monitoring easier. It is easy to implement and install the agent, and it will be used frequently as we get more familiar with the platform.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+It is a bit overwhelming to learn due to the amount of information and services available, but that is not necessarily a bad problem to have.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+It helps us with monitoring and diagnosing cloud infrastructure issues, as well as on-prem issues, and it ties all the information between both systems well.",enterprise
+22,dynotrace,G2,"What do you like best about Dynatrace?
+The many tools Dynatrace provides to help resolve issues.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The cost of DEM licensing for the usage of Dynatrace.
+Review collected by and hosted on G2.com.
+
+Recommendations to others considering Dynatrace:
+Plan for growth when purchasing licenses.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Solving mostly code issues from deployments that were not thoroughly tested.",mid-market
+23,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace is good with detecting issues in realtime and notifying. I like the fact that you can see all impacted components using the map.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+I just do not like the pricing structure. the charge is per component enrolled
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace has helped us to have a realtime view of issues on our Banks MobileApp. We can now observe degradation and start troubleshooting to resolve before customers begin to call in. With the use of the relationship map, you can actually tell which other services will be impacted",mid-market
+24,dynotrace,G2,"What do you like best about Dynatrace?
+I love all the unified approach to having everything in one place for observabiltiy
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+I think there is some disconnect with some apps, like Alerts for example, really the UI caters to those who want Davis AI alerts but lacks support for folks that also want custom metrics and alerts
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+They are solving bringing everything together in one place with AI to help you get to the root cause faster",enterprise
+25,dynotrace,G2,"What do you like best about Dynatrace?
+Automation, scalability, monitoring and observability
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dql is little tricy. Getting better with davis copilt
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Creating problem cards and attaching root cause to it. That is the best i like yo call out",mid-market
+26,dynotrace,G2,"What do you like best about Dynatrace?
+I love all the unified approach to having everything in one place for observabiltiy
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+I think there is some disconnect with some apps, like Alerts for example, really the UI caters to those who want Davis AI alerts but lacks support for folks that also want custom metrics and alerts
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+They are solving bringing everything together in one place with AI to help you get to the root cause faster",enterprise
+27,dynotrace,G2,"What do you like best about Dynatrace?
+I think the most important feature is the integration of all the features and the Davis IA (which no other tool has something similar). Also the facility to install OneAgent (just a very few steps)
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Maybe the costs (since we are from Brazil, the billing in USD is a bit of expensive)
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Mostly application-side problems (we have discovered several code-issues using Dynatrace as APM monitoring for all our customers)",mid-market
+28,dynotrace,G2,"What do you like best about Dynatrace?
+The ease of use and the intuitive workflow. The ability to drill down into anything, giving that granularity at multiple levels. Integration and implementation seems like cake walk once you get used to it. I use Dynatrace everyday and the support they offer is swift and focused on resolution.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Sometimes the interface can be jittery and I know its because of the trasition from Classic to New interface.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Offering a complete high level view into miniscule part of the infrastructure. Monitoring application as well as infrastructure metrics, making it easy for operations to be well prepared beforehand incase something comes up. This is huge for us.",mid-market
+29,dynotrace,G2,"What do you like best about Dynatrace?
+the innovation they show in their product each year.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The way to access the services and costs of the functionality.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+We have a business and it helps us identify problems",mid-market
+30,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace allows us to easily trace logs across many different systems and products. The problem workspace lets us quickly identify and drill into active issues and resolve quickly.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrace is a very large system and it can take a lot of time to understand all of the benefits and best ways to look for the information it has within.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Solving observability, alerting and tracing.",enterprise
+31,dynotrace,G2,"What do you like best about Dynatrace?
+Best thing is Davis AI, Davis automatically detects customer-facing issues,its smart scape , using oneagents and activegates make its best out of others.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Initially to use dynatrace may seem difficult as it is vast and we have multiple options and configurations to handle.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace really helps by giving me a clear view of everything happening in my IT environment, from applications to infrastructure. Its AI-driven insights and automatic discovery of system components make it easy to spot and fix issues quickly before they affect users. This means I can proactively manage performance, optimize speed, and ensure a smoother experience for everyone. The detailed metrics and diagnostics also make troubleshooting much faster and more efficient, which ultimately helps keep things running smoothly and reliably.",mid-market
+32,dynotrace,G2,"What do you like best about Dynatrace?
+I like that you are able to see deep insights into production transactions and issues. We're also able to analyze pod and application metrics easily. It has given us incredible insight into our application's availability and performance.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The dashboards aren't used that much from a developer perspective, so they feel a bit pointless.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+We are able to detect problems incredibly quickly and solve issues in minutes.",enterprise
+33,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace support is top notch, whether weekly session or chat. They are always available to answer question.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The biggest hurdle for a non profit organization is cost. There's a lot of tools in Dynatracethat cost extra licenses that we couldn't use because our budged.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace is helping to create useful dashboards for different applications. This is also alerting us on slowdowns and errors on various systems.",enterprise
+34,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace's davis AI is a quality product that helps the enterprise quicky setup alerts without spending a ton of time fine tuning settings
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Depending on the quality of the logs generated by the application, sometimes Dynatrace has trouble interpreting them.
+
+
+This can be solved from the application perspective generating better logs
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Maintaining a robust alerting system that generally alerts for the good reasons",mid-market
+35,dynotrace,G2,"What do you like best about Dynatrace?
+In my organization dynatrace is basically used for creating dashboards,creating alerts and is best tool in terms of operations.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+So far i dont see any drawback with dynatrace
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Mainly we use dynatrace for creating dashboards from logs and creating alerts which will benefit whenever an issue or error occurs",mid-market
+36,dynotrace,G2,"What do you like best about Dynatrace?
+The inhouse collection of data from different source and analytics makes life easier for supoorting the applications.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Complex traversing from the dashboard. Better to have a read me / user manual documnet in the webui for any navigation across the UI.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace solves the Application performance monitiring and incident response much better than traditional logging and old fashioned processes.",enterprise
+37,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace workflows & log analytics is pretty amazing and probably taking observability to its next level.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrace integration with publicl cloud would probably be an area where they can improve.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace is taking on self healing and remediation with their workflows and that's something which I am using it now and exploring further to utilise it's capabilities.",enterprise
+38,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace offer all-in-one monitoring functionalities and is very easy to set up as well. It has AI for anomalities detection and is very easy to integrate accross different clouds, k8s, code etc. The customer support is also very good, eager to help in all ways possible.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrace can be expensive especially for startups. It stores lots of different type of data, making it little complex to find out what we exactly need. It also have overwhelming features making it hard for new users to get in.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace provides a platform for full system monitoring inclduing websites, cloud infra, databases, containers all at one place. The AI integration also helped with faster anomaly detection, and helping in RCA.",mid-market
+39,dynotrace,G2,"What do you like best about Dynatrace?
+The capability of pulling out comprehensive monitoring data to a central place;
+
+the AI driven diagnostics and problem prediction/prevention
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+long and sharp learning curve, can be overwhelming to get a good grasp of it.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace provides a platform where all observability data is available at a central place. The AI driven RCA is especially useful.",enterprise
+40,dynotrace,G2,"What do you like best about Dynatrace?
+The event is very well organized and there's a lot to learn regardless of your experience level.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The hands-on training sessions are really long and I end up completely fried by the end of the day. Adding one or two more breaks during the sessions would help a lot.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Application monitoring and insights.",mid-market
+41,dynotrace,G2,"What do you like best about Dynatrace?
+Distributed tracing and purepath logic
+
+Customer experience and business events
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Frequent UI changes lead to occasionally confusing dev experience
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace has now fully connected our front-ends (modern, cloud, serverless) to backends (on-prem) , removing previous siloes within the organization and giving people an appreciation for one another's place in the overall stack.",enterprise
+42,dynotrace,G2,"What do you like best about Dynatrace?
+The GUI is very user friendly when it comes to dashboards monitoring.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The queries are so hard to understand and seem almost counter-intuitive at times. You can't customize metric consumption easily.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Having a platform where the whole tech department can use to observe problems and dashboards.",enterprise
+43,dynotrace,G2,"What do you like best about Dynatrace?
+Support from dynatrace is great.
+
+Ease of deployment in kubernetes means you can focus on cultural changes rather than tech deployment
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Currently migrating from classic apps to new. This can lead to some confusion.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Allowing default view of services. Giving devs more time to build and less time needed implementing observability",mid-market
+44,dynotrace,G2,"What do you like best about Dynatrace?
+It allows to quickly gather a wide set of informations from the monitored technologies
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Support for OTel data could be improved, as of today there are still a lot of limitations
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace allows to quickly pinpoint performance issues and incidente, allowing me to provide better consultancy services to my customers.",mid-market
+45,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace has been a game changer for Observabiity in my organization. The innovative approach of Dynatrace takes with adding features is fantastic.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There is no simple way to create custom alerts in Dynatrace.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace provides a single pane of glass to view all Observability (Logs, traces, metrics)",enterprise
+46,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace is more than just APM. It's a platform full of relevant data, not only APM but security, logs, traces all of which combine with the intelligence of Davis to prioritize incidents and security
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Licensing model is convoluted and not very easy to follow
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Robust anomaly detection",enterprise
+47,dynotrace,G2,"What do you like best about Dynatrace?
+Helps reduce service restoring time and alert when there is issue in system or service
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Setting up agent and identify what to capture
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Help me proactively identify Infrastruce issues and API end point issues. Addtionaly monitor layers of applications for a business transaction using workflow",enterprise
+48,dynotrace,G2,"What do you like best about Dynatrace?
+Easy installation, easy to use, wide range of supported technologies
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Not much downsides except not so cheap and that many cool features are only in SaaS
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Most problems are application related, so application unavailability, crashes, network issues, slowdowns in response times.",enterprise
+49,dynotrace,G2,"What do you like best about Dynatrace?
+The observability tools that are easy to integrate either agent or agentless
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrace ONE, limits on metric events, older features still not upgraded to settings 2.0/modern dynatrace
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+General APM solution, outage prevention, remediation MTTR, increase in observablity best practices",enterprise
+50,dynotrace,G2,"What do you like best about Dynatrace?
+I enjoy how continuous it is in terms of innovation, specifically in the automation space.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+I think sometimes it can be difficult to keep up with all the new features!
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace is benefiting us in so many ways. In the past we have used primarily monitoring tools, but Dynatrace is our first experience with an observability platform. Being able to identify issues before they occur via Davis AI has generated so much value for our corporation.",enterprise
+51,dynotrace,G2,"What do you like best about Dynatrace?
+Oneagent is the standout product, being able to instrument an application without further coding is a game changer.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Keeping metric/logs can be expensive in the long term.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Integrating legecy monitoring solutions into a single pane of glass.",enterprise
+52,dynotrace,G2,"What do you like best about Dynatrace?
+The interconnectedness between panes/graphs/metrics makes connecting an event to a root cause more simple than on other platforms (Splunk).
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+That connection and comprehensive nature sometimes leads to ""eye bloat"" where seeing the critical item is hidden between other metrics. Certainly the fault of us not creating the right dashboards and notebooks, but there's so much to digest.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Tomcat node observability makes application troubleshooting much easier when we can see suspect JSPs at a glance.",enterprise
+53,dynotrace,G2,"What do you like best about Dynatrace?
+The Proctive approach of detecting problems before crashes occur
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Can be a bit expernsive to add new features team wants
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Helps with container coniditions, so capicity team adjust resources to cost but maintain system health",enterprise
+54,dynotrace,G2,"What do you like best about Dynatrace?
+ability for granular monitoring within the platform
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+the lack of ability for metro2 parsing..
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+within a production support role, we needed a robust option to monitor our platforms - Dynatrace provides this",enterprise
+55,dynotrace,G2,"What do you like best about Dynatrace?
+The predictive analytics that Davis AI utilizes for anomaly based alerting is a fantastic additon to the platform and really raises Dynatrace above the rest.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+The network infrastcutre monitoring capabilites
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Predictive alerting",enterprise
+56,dynotrace,G2,"What do you like best about Dynatrace?
+Application observability all offered through a single Dynatrace dashboard.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There are cost factors that you need to govern carefully when you use Dyntrace.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Real user monitoring and business analytics reporting.",mid-market
+57,dynotrace,G2,"What do you like best about Dynatrace?
+Is the easiest tool to deploy, one installer does it all!
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+It's quite extense yet, there's a lot of documentation that can make life easier
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Downtime minimization and performance improvement.",enterprise
+58,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace is a tool for fast resolution of problems in production environments.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Work with log is very expensive yet, it is a great tool but expensive.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Is correlation problems, is helpful",enterprise
+59,dynotrace,G2,"What do you like best about Dynatrace?
+Seamless deployment and Al driven insights
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Front end monitoring limitation for end to end visibility
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Cost reduction for having one stop solution thus removing all other 10 tools",enterprise
+60,dynotrace,G2,"What do you like best about Dynatrace?
+Provides good insight for flow between various apps
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Learning curve can be long. Configuration takes some expertise.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Provides insight into performance, helps in troubleshooting issues and maintain stability",enterprise
+61,dynotrace,G2,"What do you like best about Dynatrace?
+service flow, distributed traces and davis problem
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+smartscape technology and GCP saaS services monitoring
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Mostly reactive. Trying to utilize this tool as pro active going forward",enterprise
+62,dynotrace,G2,"What do you like best about Dynatrace?
+Helps troubleshoot the production issues faster.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+This is a must tool than nice to have tool.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Memory issues is always the top one i can remember.",enterprise
+63,dynotrace,G2,"What do you like best about Dynatrace?
+Best observabily software I've ever use.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There is nothing what I dislike about Dynatre
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+It is very important to have view on whole problem in environment.",enterprise
+64,dynotrace,G2,"What do you like best about Dynatrace?
+Get to learn new features and new releases
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Dynatrce does advanced tracing, security and other features
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Its precenting outages, providing alerts , SLO, Reports, etc",enterprise
+65,dynotrace,G2,"What do you like best about Dynatrace?
+userability
+
+support from champions
+
+different options
+
+log management
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+more features to observe security vulnerabilties
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+implementation and integration of the new system for maximum observability",enterprise
+66,dynotrace,G2,"What do you like best about Dynatrace?
+it helped us to detect down times earlier
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Not working with Mulesoft and end to end
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+to detect where the problems are coming from",enterprise
+67,dynotrace,G2,"What do you like best about Dynatrace?
+The distributed trace in analyse of applications
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+the cost of solution, because there are very high values
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+they reduce the MTTR for troubleshooting",enterprise
+68,dynotrace,G2,"What do you like best about Dynatrace?
+Unique capabilities like GRAIL and AIOPs
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+High Price, difficult for new user to onboard
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Observability of the infrastructure",enterprise
+69,dynotrace,G2,"What do you like best about Dynatrace?
+The quality and availability of the product
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+There's nothing I don't like, all
+
+Good!!
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Log monitoring.",enterprise
+70,dynotrace,G2,"What do you like best about Dynatrace?
+Distributed tracing is one of the best features of Dynatrace. We use it everyone to help us to improve our performance and diagnosis issues.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+It has a steep learning curve and take time to use all its features.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Pinpoint which API endpoint has issue, and provide real-time views of my services.",enterprise
+71,dynotrace,G2,"What do you like best about Dynatrace?
+The correlations result made bu Davis AI
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Maybe is just some expensive for use it in whole company, but the excelled products 8n companies (which pays th cost) it worth the success.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+the reductions in times in people on regular operations on usual tasks helps to be amazingly peoductive",mid-market
+72,dynotrace,G2,"What do you like best about Dynatrace?
+We have created custome dashboard for our application infrastroucture to monitor and enable custom alerts.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+I'm still exploring to enable batchjob monitoring and alerting and hopfully it will be resolved soon.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Dynatrace have improved overall customer experiance, enabled our IT Ops to manage the application infrastructure effectively.",enterprise
+73,dynotrace,G2,"What do you like best about Dynatrace?
+Allows team to easily understand where issue are within a problem card. Helping reduce MTTR.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+It is a bit difficult to easily create an alert that can page a particular team.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Easily pinpoint where problems are in an increasingly complex environment, which helps reduce MTTR.",enterprise
+74,dynotrace,G2,"What do you like best about Dynatrace?
+Usability and insights into performance and availability of applications and infrastructure. Grail opens up so many more possibilities.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+New interface is a little less intuitive at times.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+Helps us keep a pulse on the availability and performance of all of our most critical applications",enterprise
+75,dynotrace,G2,"What do you like best about Dynatrace?
+Dynatrace is intuitive to use out of the box. Once you learn, you can perform more in depth analysis.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Dynatrace?
+Metrics can sometimes lag by a minute or two.
+Review collected by and hosted on G2.com.
+
+What problems is Dynatrace solving and how is that benefiting you?
+For our monitored entities, Dynatrace provides a very simple way to trace and quickly find issues.",enterprise

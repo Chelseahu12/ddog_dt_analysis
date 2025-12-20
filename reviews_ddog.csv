@@ -1,0 +1,927 @@
+﻿id,product,source,text,firm
+1,datadog,G2,"What do you like best about Datadog?
+What I appreciate most about DataDog are its reliability and observability. Even during major global outages, such as those affecting Cloudflare and AWS, DataDog continued to perform without any issues. The APM, RUM, and Synthetic Checks are exceptionally dependable, giving me the confidence to choose DataDog without hesitation.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I wish the UI had a more modern look, as it currently feels like I'm using an old inventory management system from the 2000s.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+DataDog has been highly beneficial for us in many ways, from monitoring synthetic checks to tracking APM traces. The platform provides a map of interconnected, dependable services, allowing us to view latency and error rates all in one central location. The alerting mechanism is easy to use, supports numerous integrations, and consistently works smoothly.",NA
+2,datadog,G2,"What do you like best about Datadog?
+Datadog brings infrastructure, applications, logs, and security signals together in one place, which makes it much easier to understand what is really happening in an environment and to move quickly from detection to action. The correlation between metrics, traces, and logs is particularly valuable when diagnosing incidents, as it reduces guesswork and speeds up root cause analysis.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+While Datadog is extremely powerful, it can become difficult to control and predict costs in large or rapidly changing environments, particularly when ingesting high volumes of logs, metrics, and traces. Without strong governance and regular tuning, usage can grow quickly and lead to unexpected spend.
+
+
+In addition, the breadth of features can sometimes feel overwhelming. Teams need time and clear ownership to configure dashboards, alerts, and monitors properly; otherwise, there is a risk of noise, alert fatigue, or under-utilisation of the platform’s capabilities.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us centralise logs and monitor our Java applications and APIs, and provides APM (Application Performance Monitoring) to quickly detect performance issues and troubleshoot incidents or bottlenecks.",small
+3,datadog,G2,"What do you like best about Datadog?
+The user interface is very intuitive, making it easy to gain insights from the data. getting data into datadog is quite simple due to the multiple integrations, so it get's ready to use in a few clicks, support is responsive, my team uses it every day.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+In terms of cost, this platform is not inexpensive. Additionally, making bulk changes across multiple widgets is not straightforward, which can be inconvenient.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We leverage Datadog to generate alerts and reports for our services, which helps us maintain higher uptime and gain better visibility into any issues that arise.",NA
+4,datadog,G2,"What do you like best about Datadog?
+It offers almost every possible way to track the application interactions.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+It's very expensive, and it's not easy to grasp for newbies
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It gives us insights into our application services and it allows us to catch issues. Also, it provides session replays that allow us to quickly spot issues with the way users interact with our application.",NA
+5,datadog,G2,"What do you like best about Datadog?
+Datadog is a powerful tool that gives us greater confidence in our company's systems and enhances our ability to detect outages. It offers a wide range of features, most of which we actively use. Datadog provides essential insights into our systems, which helps us investigate problems, identify issues, and monitor performance, these being just a few of the ways we rely on Datadog.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The cost is one of Datadog's biggest drawbacks, there are some products that would be helpful to use but the cost makes them impractical. The cost of Mobile App Testing testing comes to mind as an example for this.
+
+Additionally, we have experienced some frustration due to pricing changes. Our previous SKUs were grandfathered, but we were eventually required to switch to the newer, more expensive SKU pricing.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps gives our company confidence in knowing that our systems are being monitored and that issues can be detected and addressed by our observability team promptly. We also use the information collected in Datadog to assess the overall health of our systems and drive investigations for any issues detected.",mid-market
+6,datadog,G2,"What do you like best about Datadog?
+It logs all the details we need for analysis. The platform is user-friendly, allowing us to easily set up various dashboards to view all the insights. Implementation is straightforward as well. We have integrated it with our different platforms, including both web and mobile.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I have never encountered any major issues. However, there should be an option to retrieve data based on our own custom filters.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We use Datadog for both performance monitoring and crash analytics. Previously, our main challenge was with crash reporting, as we struggled to debug or analyze crash data in our production environments. However, Datadog has helped us address this issue through its crash reports and log monitoring features.",mid-market
+7,datadog,G2,"What do you like best about Datadog?
+Datadog's reliability and performance is unmatched which makes it an absolute recommendation.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Too many features/window are spread-out and could be consolidated/integrated better for easier UX.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+As a developer, DD has been my go to point to investigate any ongoing incidents or malfunctions in our services. The APM offer a great detailed view of the application performance and general health.",NA
+8,datadog,G2,"What do you like best about Datadog?
+Datadog has everything you could want for observability and alerting and incident management.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Can be quite overwhelming on where to get started, you need to know exactly what you want to do to get into Datadog.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Need a simple place to create dashboards and alerts that cover multiple cloud providers",NA
+9,datadog,G2,"What do you like best about Datadog?
+The way it help provide the observability of the apps from infrasctructure , APM , Browser and with logs metrics and traces.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The Way we write the Datadog query language. Ui can be a bit better
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+1. APM Application observability
+
+2. understanding logs and metrics and traces for the applications
+
+3. Understanding the infrastrcuture cluster",NA
+10,datadog,G2,"What do you like best about Datadog?
+I like that Datadog shows issues in real time and the filters help me quickly find the key errors without digging through everything.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Sometimes the dashboard feels a bit heavy, and it can take time to set up the right filters when the data gets large. and some time the errors are small but it shows high alerts for it.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us catch issues fast during live esports events like the World Cup. By checking logs and errors in real time, we can fix problems quickly and keep everything running smoothly.",NA
+11,datadog,G2,"What do you like best about Datadog?
+Datadog provides an excellent all-in-one monitoring solution that gives complete visibility into infrastructure, applications, and logs. The customizable dashboards make it easy to track performance metrics in real time, and the alerting system ensures quick detection of issues. Its wide range of integrations with cloud services, databases, and tools makes it very flexible. The user interface is intuitive and easy to navigate even for new users.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+While Datadog is very powerful, the pricing can become expensive for small or growing teams as costs increase with the number of metrics and hosts. The initial setup of dashboards and integrations can also feel overwhelming due to the wide range of features available. Additionally, some advanced queries require a learning curve.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us monitor applications, servers, and cloud infrastructure in real time, which allows us to quickly detect and resolve performance issues before they impact end users. It centralizes logs, metrics, and traces in one platform, making troubleshooting much faster. The alerting system has reduced downtime and improved overall system reliability, while the dashboards give clear insights for both technical and business teams.",mid-market
+12,datadog,G2,"What do you like best about Datadog?
+The user interface is very intuitive, making it easy to gain insights from the data. getting data into datadog is quite simple due to the multiple integrations, so it get's ready to use in a few clicks, support is responsive, my team uses it every day.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+In terms of cost, this platform is not inexpensive. Additionally, making bulk changes across multiple widgets is not straightforward, which can be inconvenient.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We leverage Datadog to generate alerts and reports for our services, which helps us maintain higher uptime and gain better visibility into any issues that arise.",mid-market
+13,datadog,G2,"What do you like best about Datadog?
+I love how Datadog integrates seamlessly into a multi-cloud platform, providing real-time metrics that are crucial for monitoring and observability. The highly customizable dashboards allow me to tailor the analytics to fit my exact needs while the fine-tuning alert options ensure that I am always informed without being overwhelmed. These combined features help significantly in tracking system performance metrics and logs, greatly aiding in root cause analysis (RCA).
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I find the setup of Datadog to be inefficient and somewhat challenging, making the initial configuration process moderately hard. Additionally, the cost of using Datadog is quite high, and it would be beneficial if there were discounts available for first-time users to ease the financial burden.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+I use Datadog for centralized monitoring and observability, tracking system performance metrics, logs, and root cause analysis. It integrates with multi-cloud platforms, provides real-time metrics, and features customizable dashboards and alert options.",small
+14,datadog,G2,"What do you like best about Datadog?
+its end-to-end monitoring since it shows us everything we need to see and likewise see what is consumed and all its logs, traces, metrics in a more dynamic way
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+its way of containers that makes the price go up if not configured properly
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Before, I had to check five different tools: one to see the CPU usage of my servers (Metrics), another to find out what caused the error (Logs), and another to see which part of the code slowed down (Traces). This is slow and makes me waste time jumping between tabs.",small
+15,datadog,G2,"What do you like best about Datadog?
+What I like best about Datadog is how seamlessly it brings together metrics, logs, and traces in one place. The dashboard is very intuitive, and it’s easy to set up real-time monitoring for applications and infrastructure. I also like how flexible it is — you can create custom dashboards, set alerts, and get deep visibility into performance issues quickly. It really helps in identifying bottlenecks before they impact users.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The main downside of Datadog is its pricing — it can get quite expensive as your infrastructure and data volume grow. Managing costs can be tricky, especially when you’re monitoring multiple environments. Also, the interface, while powerful, can feel a bit overwhelming at first due to the number of features and options available. It takes some time to get fully comfortable navigating everything.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us monitor our entire system — from backend services and APIs to frontend performance — all in one place. It gives real-time visibility into logs, metrics, and traces, which makes it much easier to detect and troubleshoot issues quickly. Thanks to Datadog, we’ve reduced downtime, improved application performance, and gained better insights into how different parts of our system interact. It really helps our team stay proactive instead of reactive when it comes to performance and reliability.",small
+16,datadog,G2,"What do you like best about Datadog?
+I like that Datadog shows issues in real time and the filters help me quickly find the key errors without digging through everything.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Sometimes the dashboard feels a bit heavy, and it can take time to set up the right filters when the data gets large. and some time the errors are small but it shows high alerts for it.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us catch issues fast during live esports events like the World Cup. By checking logs and errors in real time, we can fix problems quickly and keep everything running smoothly.",mid-market
+17,datadog,G2,"What do you like best about Datadog?
+Extremely reliable.
+
+Ability to fine tune Custom metrics and logs ingested -> this helps to control the cost.
+
+Many features integrated together multiplying the efficiency of Datadog as a global Observability solution.
+
+It is easy to implement and to use.
+
+Integration with 3rd parties is most of the time straightforward.
+
+Scales well with a large organisation.
+
+Dashboards and queries are very responsive even with a very large amount of data.
+
+The Datadog team is very responsive, they already implemented most of the feature requests we suggested (over 10 in a year) which is impressive.
+
+Support is also responsive and we have most of our issues solved in a reasonable amount of time.
+
+The platform is used intensively be the developers across our organisation.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I don't like Zendesk, it is quite poor to interact with support compared to Datadog platform.
+
+Terraform and APIs often take longer to catch up with new features.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+While Datadog platform covers a wide range of functionality, it helps us to consolidate our Observability tool suite saving cost and time.
+
+The fact that it's easy to use helps a lot for our application monitoring and our incidents management.",enterprise
+18,datadog,G2,"What do you like best about Datadog?
+Easy integration, power dashboards and visualization, smart alerts
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+expensive and hard to predict cost, data retenntion and export limitation
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+1. Lack of Unified Observability
+
+
+In modern environments, teams use dozens of tools—logs, metrics, traces, synthetic monitoring, network monitors, security scanners, etc.
+
+
+Datadog consolidates metrics, logs, traces, security, and real-user monitoring in one place. This helps DevOps, SRE, security, and business teams collaborate with a single source of truth.
+
+
+2. Troubleshooting is Hard and Slow
+
+
+Distributed systems mean a single user action might trigger dozens of services.
+
+
+Datadog provides distributed tracing, log correlation, and visualizations that allow you to trace requests end-to-end and pinpoint slow or broken parts of the system fast.
+
+
+3. Cloud Complexity
+
+
+Cloud environments (AWS, Azure, GCP) change constantly—instances spin up/down, containers come and go, etc.
+
+
+Datadog offers real-time monitoring and auto-discovery to keep up with these ephemeral environments.
+
+
+4. Siloed Teams & Tools
+
+
+Dev, Ops, Security, and Business teams often use different tools and speak different ""languages"".
+
+
+Datadog’s platform allows shared dashboards, alerts, and insights, helping teams align on problems and priorities.
+
+
+5. Proactive Monitoring Instead of Reactive Firefighting
+
+
+Teams often only react after customers are impacted.",mid-market
+19,datadog,G2,"What do you like best about Datadog?
+Datadog is very easy to use and provides a unified platform for monitoring, metrics, logs, and traces. I really like the Log Explorer, it’s powerful and flexible, especially when building complex queries to filter and analyze data. The Metric Explorer and APM features are excellent for tracking performance and identifying bottlenecks across different services. User management is straightforward, and setting up monitors is quick and reliable. Integration is also straightforward, in our case, we use it with Microsoft Teams and Azure without any issues. Their customer support has always been responsive and helpful whenever we’ve needed assistance. Overall, it’s a powerful and easy-to-use observability platform that provides deep visibility across systems and applications.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Dashboards can feel limited at times, building more advanced or highly customized visualizations isn’t always straightforward.
+
+
+Another drawback is the cost as Datadog can become extremely expensive if not managed carefully, especially when log volumes or monitored hosts grow quickly.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us centralize monitoring across all our infrastructure and applications. We use it to collect logs, metrics, and traces in one place, making it much easier to detect and troubleshoot issues before they impact users. With APM and monitors, we can quickly identify performance bottlenecks and track down root causes. The integration with Azure and Microsoft Teams allows us to get alerts and insights directly where we collaborate, improving response times. Overall, Datadog gives us better visibility, faster incident resolution, and a clearer understanding of system health across environments.",mid-market
+20,datadog,G2,"What do you like best about Datadog?
+Datadog is pretty awesome, it's really powerful, we can add logs from our platforms, it tracks automatically the `console.errors` on the frontend, we can track the specific line when mappings are available, it allow us to track the CPU usage, it even can be connected to services like OpsGenie, or Slack or others, also it has support for IDEs which means we can open the error directly on our IDE, which is really awesome... but maybe the most important is that we can have a complete platform for control of our code/infra in one single place, as a FrontEnd developer, this help us also to track properly what the users see and replicate issues as closes as we can without bothering our customers.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+It's really expensive, sometimes configuring a dashboard or specific monitors is really hard as the platform is too big, which feels overwhelming, meaning we can't properly find some parts or things like that, also for example on the error login I think it should work the opposite when creating a query using the filters, as we should start with nothing selected, and then we can start filtering, so it's not hard to find what we want...
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We monitor all our infra with Datadog, also our platforms (Backend, Frontend applications) in just one single place, we even track some extra things on Datadog like third party API responses using the logging part... so we have full observability of what is happening in all the places.",mid-market
+21,datadog,G2,"What do you like best about Datadog?
+Datadog offers a comprehensive set of monitoring tools that make it easy to visualize, alert, and analyze performance metrics in real time. I particularly like how seamlessly it integrates with various cloud platforms and services. The dashboards are customizable and give great visibility into system health, which helps our team react faster to issues.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Datadog can get expensive as usage scales, especially with multiple integrations and high data ingestion. The pricing model isn't always transparent, and configuring some advanced features can be a bit complex without strong technical knowledge or documentation.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us monitor infrastructure, applications, and logs in real time, all in one place. It reduces downtime by alerting us quickly to issues and provides visibility across distributed systems. This centralized observability improves team efficiency and helps us deliver better performance to end users.",mid-market
+22,datadog,G2,"What do you like best about Datadog?
+Datadog has everything you could want for observability and alerting and incident management.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Can be quite overwhelming on where to get started, you need to know exactly what you want to do to get into Datadog.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Need a simple place to create dashboards and alerts that cover multiple cloud providers",small
+23,datadog,G2,"What do you like best about Datadog?
+what I like best about DataDog:
+
+1. it provides a user-friendly interface to track down logs.
+
+2. It allows to track and fetch logs according to specified time-frames.
+
+3. Log appear live, so usage is useful to tracking down logs when on the spot.
+
+4. Bug-tracking can be presented in a convenient way to help testers and developers during bug fixes.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+What I dislike about DataDog:
+
+1. User interface contains an overwhelming amount of features that make it difficult to navigate through.
+
+2. Categorization is often innacurate and causes problems with finding specific logs.
+
+3. Time-frame functionalities are often buggy and unreliable.
+
+4. It's unclear how to integrates bugs from application in development to DataDog log system.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Problems that Datadog solved for me:
+
+1. Is a solid platform to track down logs.
+
+2. Helps tracking progress with bug discovery and bug fixes.
+
+3. Helps with monitoring over database and server performances.
+
+4. Allows to display live logs from current usage of application in development.",mid-market
+24,datadog,G2,"What do you like best about Datadog?
+Datadog is a powerful observability tool that brings metrics, logs, traces, and more into a single, easy-to-use platform. What I really like is how quickly you can get visibility across your entire stack—especially in dynamic cloud and Kubernetes environments—and the dashboards are both beautiful and practical. It’s reliable and flexible
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+it can get expensive fast if you’re not careful with what you ingest or retain. Some of the advanced features take time to master, and alert tuning needs discipline to avoid noise. Still, for modern infrastructure, it’s one of the best tools out there.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps solve the problem of fragmented monitoring by centralizing logs, metrics, traces, and real-time alerts into a single platform. Instead of jumping between multiple tools to troubleshoot issues or understand performance, we get a unified view of our infrastructure, applications, and user experience. This has made our incident response much faster and more informed, since we can quickly correlate spikes or failures across layers—from code to container to cloud service. It also helps us catch issues proactively through anomaly detection and automated alerts, improving reliability and reducing downtime.",mid-market
+25,datadog,G2,"What do you like best about Datadog?
+Datadog provides real-time visibility into infrastructure and application performance with intuitive dashboards and robust alerting. I love how easy it is to set up monitors and correlate metrics, logs, and traces all in one place. The out-of-the-box integrations with AWS, Azure, and Kubernetes are a huge plus and save a lot of setup time.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Pricing can ramp up quickly, especially when enabling multiple features like log management, APM, and custom metrics. The UI can feel a bit overwhelming at first, especially for new users. Some configuration options require going deep into documentation.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us monitor distributed systems across our cloud infrastructure and microservices. It allows our team to identify bottlenecks, debug production issues faster, and ensure uptime through real-time alerts. By having logs, metrics, and traces in a single platform, we reduce context switching and can resolve incidents quicker, ultimately improving reliability and reducing downtime.",mid-market
+26,datadog,G2,"What do you like best about Datadog?
+I almost use Datadog every day to view the customer sessions to find out the how customer handles our application and it really help me to clarify on the what customer facing and what customer trying to convey with the usage. As a customer support member, these things help me to make queries addressed faster.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Some high-level UI interactions are not captured in the session, making certain user sessions difficult to analyze or even useless.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+In my role, some queries are reported without screenshots or screen recordings from the customer as those scenarios are not ideally possible to take a screenshot while it occuring. In such cases, Datadog helps us understand the issue better. On the other hand, manual analysis—such as reviewing usage reports—becomes easier, as we can track every organization’s and user’s activity and export the data at our convenience.",mid-market
+27,datadog,G2,"What do you like best about Datadog?
+Datadog does particularly well in Incident Detection. Datadog enables real-time monitoring of service health, with alerting configured via integrations like PagerDuty. This helps us quickly detect production issues, minimise downtime, and maintain SLA/SLO commitments.
+
+At Indeed, we use Datadog extensively across our engineering organisation for monitoring, incident detection, observability, and SLO management. It plays a critical role in ensuring the reliability and performance of our services, especially those with high user impact like the IRL Sign-In Tool and our GraphQL APIs. I use Datadog very frequently because it is easy to use and easy to integrate.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The Datadog UI is powerful but can be intimidating and cluttered especially when building complex queries or nested monitors. There is a learning curve for everyone.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog does particularly well in Incident Detection. Datadog enables real-time monitoring of service health, with alerting configured via integrations like PagerDuty. This helps us quickly detect production issues, minimise downtime, and maintain SLA/SLO commitments.
+
+At Indeed, we use Datadog extensively across our engineering organisation for monitoring, incident detection, observability, and SLO management. It plays a critical role in ensuring the reliability and performance of our services, especially those with high user impact like the IRL Sign-In Tool and our GraphQL APIs. Datadog addresses several business problems at Indeed company like, 1. Incident Detection and Response Datadog enables real-time monitoring of service health, with alerting configured via integrations like PagerDuty. This helps us quickly detect production issues, minimise downtime, and maintain SLA/SLO commitments. 2. End-to-End Observability With distributed tracing, log correlation, & metrics, we can pinpoint bottlenecks or failures across our micro services particularly valuable in our Envoy mesh based architecture and coroutine heavy services.",enterprise
+28,datadog,G2,"What do you like best about Datadog?
+It offers almost every possible way to track the application interactions.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+It's very expensive, and it's not easy to grasp for newbies
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It gives us insights into our application services and it allows us to catch issues. Also, it provides session replays that allow us to quickly spot issues with the way users interact with our application.",small
+29,datadog,G2,"What do you like best about Datadog?
+The user interface is excellent, and I appreciate the simplicity of the user experience. It offers full stack observability, allowing me to monitor both the technology stack and the application environment effectively. They have knowledge tech support and supports many third party integration.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Everything is up to date, and there is nothing more to add. The documentation is thorough, and there are clear paths available to troubleshoot any queries.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog can help you identify and resolve application bugs. Sometimes, application teams are unsure about the exact location of a bug, which line is causing the application to fail, or where the failure rate is originating. They may also struggle to determine which endpoint is making the application slow. With Datadog, you can monitor all of these aspects in a single observability platform.",mid-market
+30,datadog,G2,"What do you like best about Datadog?
+The way it help provide the observability of the apps from infrasctructure , APM , Browser and with logs metrics and traces.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The Way we write the Datadog query language. Ui can be a bit better
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+1. APM Application observability
+
+2. understanding logs and metrics and traces for the applications
+
+3. Understanding the infrastrcuture cluster",enterprise
+31,datadog,G2,"What do you like best about Datadog?
+We can monitor our all in centralized platform. Dashboards are very clear and we can integrate our other solutions as well. That is big advantage for us. We can fix and resolve our problems quickly using datadog
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Compared to other competitive products, datadog price are bit higher. Small and medium size businesses cannot buy this product easily.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We can quickly identify and and respond to our problems in our systems and applications. It gives real time visibility for all our systems in centralized platform. We can minimize trouble-shootings and save our time.",mid-market
+32,datadog,G2,"What do you like best about Datadog?
+Its unified in visibility across the whole tech stack
+
+Its seamless in log management.
+
+Has customized dashboards for better support.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+very expensive to use.
+
+its cluttered when dealing with bulky data.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog allows servers, databases, and many other tools and services to be monitored across the IT landscape in real time. It will enable one to see the performance of applications and identify problems from a business perspective before they reach the user.",small
+33,datadog,G2,"What do you like best about Datadog?
+The APM and RUM are the two main products our team uses, and has 10x our observability setup.
+
+
+We really love the seamless view of requests through our systems.
+
+
+The service map is also super useful for onboarding actually.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+We're still fairly new to Datadog, so don't have much to pull from, but I would say sometimes the UI/UX gets a bit confusing the deeper you get into panels and views.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog has replaced our organization's reliance on many different tools in a single package.
+
+
+We used to use Sentry, self-hosted ELK stack, Grafana, Jaeger, OpsGenie, etc.
+
+
+The best part is that Datadog does all the different things these other tools did, but better.
+
+
+The automatic instrumentation has been my favorite part.",mid-market
+34,datadog,G2,"What do you like best about Datadog?
+The UI integration with APM, session replay and UI analytics like LCP are very convenient. I enjoy the easy way of following user sessions on different environments and filter by devices. Dashboard creation is very intuitive. Implementing on a real project is very straight forward.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Sometimes its a bit tricky to match the UI logs with the BE information, mostly configuring and finding tracing has been a little challenging.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog is super useful for incident analysis and log checking. This allows applications to have a quick response to any problem that might appear on dev or production. I would say that analysis and optimization is an area that helps a lot.",mid-market
+35,datadog,G2,"What do you like best about Datadog?
+Best monitoring tool and easy to understand
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I dont say i dislike, it'd be extra good if there's a troubleshooting
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog solves the challenge of fragmented monitoring by providing a unified platform for infrastructure, application, log, and security observability. It enables real-time insights, faster issue resolution, and efficient root cause analysis across dynamic, cloud-native environments. This leads to improved system reliability, better team collaboration, reduced downtime, and enhanced user experience—all from a single, scalable tool.",enterprise
+36,datadog,G2,"What do you like best about Datadog?
+Datadog's reliability and performance is unmatched which makes it an absolute recommendation.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Too many features/window are spread-out and could be consolidated/integrated better for easier UX.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+As a developer, DD has been my go to point to investigate any ongoing incidents or malfunctions in our services. The APM offer a great detailed view of the application performance and general health.",mid-market
+37,datadog,G2,"What do you like best about Datadog?
+Datadog provides a unified observability platform that’s incredibly easy to integrate across our stack. I especially appreciate how seamless it is to correlate logs, metrics, traces, and dashboards in one place—it reduces context switching and enables faster debugging and root cause analysis. The intuitive UI and out-of-the-box visualizations also make it accessible to both engineers and non-technical stakeholders.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+While Datadog is powerful, the pricing can become difficult to manage as usage scales—especially with high-cardinality metrics or large log volumes. Additionally, some configuration options (like log pipelines and monitor tuning) can feel complex or unintuitive without deeper documentation or prior experience.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+At Sigma, Datadog helps us centralize observability across our microservices and data infrastructure, making it easier to monitor system health, trace performance bottlenecks, and proactively catch issues before they impact customers. It’s been especially useful during incident response and on-call rotations, where the ability to quickly pivot between logs, metrics, and traces significantly reduces our mean time to resolution.",mid-market
+38,datadog,G2,"What do you like best about Datadog?
+Love how it integrates all of our different software surfaces: mobile apps, databases, APIs, and internal tools. And there are always more features coming out.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+There are so many features! It can be hard to figure out exactly how to get the most out of it.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We're a lean software team and datadog helps me get to the root cause of customer issues quickly.",small
+39,datadog,G2,"What do you like best about Datadog?
+What impressed me most was how observability didn't feel like an afterthought. From the momentI integrated our service, I started discovering unknown bottlenecks without even setting custom alerts.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Switching between dashboards, logs, and monitor sometimes felt like context switching between apps. I wished there were more shortcuts stitch it together.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us reduce our incident response time drastically connecting metrics, logs and traces in one place. We used to rely on multiple disconnected tools , now we catch issue earlier and more context.",enterprise
+40,datadog,G2,"What do you like best about Datadog?
+User-friendly dashboards, Comprehensive monitoring, Eady out of box integrations,Real time alerts and highly scalable for enterprise workloads
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Learning curve for a few features, the website may get janky and lag due to high volumes, slightly expensive
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We have a modular architecture for our systems which means a lot of microservices and cloud native applications, datadog seamlessly provides end to end observability of all the distributed systems and troubleshooting is easier with datadog, it also helps identify performance bottlenecks and with real user monitoring the issues arr identified quickly.",enterprise
+41,datadog,G2,"What do you like best about Datadog?
+I like how Datadog brings everything—logs, metrics, and traces—into one place. It makes spotting and fixing issues really simple.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+It can be a bit complex to set up and tune initially.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps solve the problem of not having full visibility into how applications are performing across services and infrastructure.
+
+For APM, it shows real-time traces, bottlenecks, and error rates, which helps quickly identify and fix performance issues—saving time and improving user experience.",mid-market
+42,datadog,G2,"What do you like best about Datadog?
+Ease of setup and comprehensive monitoring and security
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Cost and pricing complexity. There could be unexpected cost when not monitored correctly.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+The dog is good being able to see and monitor everything in one place. The dashboard is pretty easy to navigate and it’s easy for me to see what I need.",small
+43,datadog,G2,"What do you like best about Datadog?
+Data dog is best for infra and app monitoring and best part is easy to configure
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Quit expensive if you have large environment
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It help to continues monitoring and alerting",mid-market
+44,datadog,G2,"What do you like best about Datadog?
+Datadog is very easy to use. Pivoting between security signals, logs, and event data is straightforward because it is bundled into one callout pane. Writing detection rules is very easy in the GUI. Having a DevSecOps platform to house all data is the best approach to the security problem.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Security should be contained within one page, rather than broken out into multiple SKUs -- for example, if there is a log detection trigger, I should be able to see the information from Workload Security, CSPM, etc. about the host in question in the same pane. Exporting detection rules in Terraform from the Datadog platform does not produce clean Terraform code and there are syntax errors reported. The Datadog learning platform needs to be bolstered.",mid-market
+45,datadog,G2,"What do you like best about Datadog?
+Datadog provides detailed monitoring, collecting data from different sources, such as servers, DBs and others. It's a complex tool with many different features, but UI helps users to navigate and find relevant information.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+It has quite a steep learning curve, and takes time to get experience.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It provides detailed information about the infrastructure of the system, gives insights on the performance bottlenecks and many more.",enterprise
+46,datadog,G2,"What do you like best about Datadog?
+- integration of various modules are finally coming together
+
+- the graphing capabilities are great
+
+- response time
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+- some of the features are not as reliable or working, as promised. For example, BitsAI is solid on hype but short on delivering in production incident scenarios. Many of the DataDog's own product do not provide BitsAI integration so one has to still stitch the information together across the modules.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+- it is a single product to help detect, troubleshoot and resolve any production problems",enterprise
+47,datadog,G2,"What do you like best about Datadog?
+Their marketing is very strong. As I was choosing between Grafana vs Datadog, I believed datadog can solve my problems quicker and I am willing to pay more for that.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+1 months into datadog, my decision of choosing Datadog over Grafana is already biting me. None of my expectations were materialized
+
+1. Datadog was not quicker to set up; there are less support docs/examples comparing to Grafana.
+
+2. Datadog's support team are all about being ""nice"" instead of making real progress. Very inefficient.
+
+3. When you are stuck, their support will remind you of the ""switching cost"" instead of solving real problems for you. Very distasteful.
+
+4. I invested in a closed platform instead of an open source stack where I have a much easier time to extend and switch.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We have many microservices. As an executive, I needed a service catelog to track, monitor, and level up all of the services across all dimensions (APM, Cloud Cost, Incident, Log, etc).",mid-market
+48,datadog,G2,"What do you like best about Datadog?
+Is a tool that provides many services like infrastructure monitoring, logging, database monitoring, etc. The great about this is that all services are interconnected, so when a problem ocuurs in your systems you can configure Datadog to have end 2 end visibility of your platform, helping the engineers to debug and find problems easy and fast enough.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Sometimes the ui is very overwhelming, specially at the beginning, so many buttons and features makes the platform very complex to use, so the leraning curve is a bit hard at the beginnning, once you learn to use it is really simple and intuitive
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+The monitoring and alerting systems we have in AWS and GCP are good to identify problems, but when it comes to review an end 2 end problem that there is no clue when the error is happening, datadog is providing the tools to follow step by step with full visibility of our systems. This is increasing the productivity of the engineering team a lot. We are right now finalizing our trial version but I can tell that not even getting the full potentil of it yet, is really promising what we achieved in just a few weeks. Very excited of what is coming with the new discoveries of this platform features",mid-market
+49,datadog,G2,"What do you like best about Datadog?
+We have deployed Datadog for our all cloud deployments in AWS cloud. A large number of integrations allow us to literally monitor everything. From AWS cloud infra to hosted compute whether it be physical, virtual or serverless. We are using Datadog to monitor our endpoints and UI testing of the applications through synthetic tests.
+
+Deployment is super easy and quick with highly skilled support team. Datadog is one of the most frequenctly used tool in our organization and its been great. Documentation is very detailed and has improved over time allowing us to setup everything without major hurdles.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Some features are limited when compared to compatitors. We used to monitor the infra through NewRelic which offered more visibility into the running processes but Datadog is limited when it comes to manual process monitoring.",mid-market
+50,datadog,G2,"What do you like best about Datadog?
+Very simple to use and we like the platform. There is an ease of use.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Nothing much. We find the system simple.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It solves our monitoring for data pipelines and more. It’s ease of use make it simple to view and monitor real time data.",enterprise
+51,datadog,G2,"What do you like best about Datadog?
+Datadog has helped me understand my applications and has the ability to provide any type of insights that I need. I like how easy it is to set up monitors jump to traces and spans.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+In the beginning when using data dog there's so much information on the screen. It's hard to know what is a link, what is important and what is not important.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Dave locker is solving problems related to the health of my applications. I have better insight into what's going on before larger issues happen.",mid-market
+52,datadog,G2,"What do you like best about Datadog?
+The user interface is very user-friendly, and the dashboard offers greater flexibility compared to other tools I have used. Implementation is straightforward and uncomplicated.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+So far, based on my past experience, I have not encountered any drawbacks.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog is very helpful for root cause analysis, and I find the dashboards particularly useful. They allow us to proactively monitor our servers and applications, making it easier to identify and address issues as they arise.",mid-market
+53,datadog,G2,"What do you like best about Datadog?
+Visibility into traces, metrics, logs all in one place.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Too many screens, gets costly for Custom Metrics
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Great visibility into the traces for all our deployed applications. AI Observability. Dashboards and Custom Monitoring Alerts and Automated actions on top of the Alerts.",enterprise
+54,datadog,G2,"What do you like best about Datadog?
+The dashboard demo, the service map, and the people here
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The front desk did not have my registration data when I arrived this morning
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+The niche market data analysis, log data analysis, and alert messages to customers",small
+55,datadog,G2,"What do you like best about Datadog?
+Ecosystem and integration!
+
+
+Effective communication between different Datadog products, such as APM and Infrastructure, shows detailed traces that I can drill down into to pinpoint the issue.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+There is a need for more improvements and features in the Datadog security lineup. A centralized SCA and SAST is lacking. Additionally, easier integration with MS Teams and other third-party software is necessary.
+
+
+Flutter support in Real User Monitoring (it is not fully supported yet).
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+1. At one glance I can see status of my production environment.
+
+2. If there is issue in midnight then watchdog given me exact context on where is the failure and which all microservices were involved along with CPU and RAM usage of given period.
+
+3. If there is crash for mobile application then it directly reports and create errors error tracking which I can assign it to team.
+
+4. If there is vulnerability in the production then it scan and report.
+
+5. If someone is trying to hijack the system then I can block those IPs.
+
+6. Datadog detects unusual activities and reports it.
+
+7. We have configured reports which get sends daily at 9AM to see previous day statics for review purpose so we are proactive if there are any issues.",mid-market
+56,datadog,G2,"What do you like best about Datadog?
+Ease of integration with all Major Cloud Platforms.
+
+Ease of APM setup.
+
+Ease of custom dashboards and widgeting.
+
+OpenTelemetry support.
+
+AI for outlier detection, anomaly detection and correlation in a distributed microservices archtiecture.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The docs for integrations could be more user friendly.
+
+Too many features sometimes overwhelm a casual user and distracts debugging.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Having observability for the entire tech stack of the enterprise in one place. It acts as a single tool for all distributed developer teams to instrument metrics for their applications.",mid-market
+57,datadog,G2,"What do you like best about Datadog?
+The breadth of integrations and ease of setup - Datadog makes it simple to get visibility across infrastructure, applications, and logs in one place
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The pricing model - costs scale quickly and unpredictably, especially with logs and additional features
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog gave us strong visibility into infrastructure, applications, and logs in a single platform. It helped us detect issues faster, reduce downtime, and improve performance monitoring across teams",small
+58,datadog,G2,"What do you like best about Datadog?
+Datadog has a product to solve almost any observability problem you may have. It's simple to implement into your workflow, and data will start enriching the rest of the products immediately.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The pricing struture is confusing, and the support agents are very hit or miss in understanding your problem.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We use Datadog for performance and error monitoring, application Performance Management, and security protection with the application security module.",enterprise
+59,datadog,G2,"What do you like best about Datadog?
+Great monitoring and visibility - nice to get alerted and replace PagerDuty
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Took a little while to get up to speed , but once setup it's great
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Monitoring, alerting and our oncall services",enterprise
+60,datadog,G2,"What do you like best about Datadog?
+data accuracy and tracking for endpoints
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Analytics can be improved, more visualizations
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+I'm tracking the error rates of each endpoints",small
+61,datadog,G2,"What do you like best about Datadog?
+observability and monitoring, helps report incidents
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+there is a lot of features that look overwhelming to new users.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+monitoring errors and dashboards to view the latency and speed of endpoints.",mid-market
+62,datadog,G2,"What do you like best about Datadog?
+What I like best about Datadog is its comprehensive monitoring capabilities across multiple environments and services, especially in cloud-based infrastructures. The platform makes it easy to monitor everything in one place, from application performance and infrastructure health to logs and security. The real-time dashboards are highly customizable, allowing us to drill down into specific metrics and get a clear overview of our entire stack.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+As our usage grows and we monitor more hosts and services, processing costs also increase. There is a learning curve involved in creating custom queries within the log management interface.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog helps us solve a range of monitoring and observability challenges across our infrastructure, particularly for our EKS clusters, AWS services, and application performance. By centralizing all these metrics in one place, it’s much easier to get a clear, real-time view of what’s happening across our system.",enterprise
+63,datadog,G2,"What do you like best about Datadog?
+I love how intuitive the interface is to use
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Many companies can create similar tools internally
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+It is useful for evaluating kuberenete usage and llm evals",small
+64,datadog,G2,"What do you like best about Datadog?
+Easy Integrations and out of the box package dashboards
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+No experiences so far have been disliked
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Tracking overprovisioning of resources and providing useful optimization options",enterprise
+65,datadog,G2,"What do you like best about Datadog?
+I built pipelines to monitor data and keep data secure
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I haven’t found anything I dislike yet as of now
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Keeping user and data secure",mid-market
+66,datadog,G2,"What do you like best about Datadog?
+The integration between all the products is phenomenal, and so is the rate at which new products have been added.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+User experience is getting complicated as more and more features are added.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+DataDog helps us understand whether or not the software we are writing is working as intended. It beats having to manage separate and unintegrated tools for error tracking, log shipping, APM, etc, which we used to before.",mid-market
+67,datadog,G2,"What do you like best about Datadog?
+A very strong monitoring an integration tool that has many integrations across the market that allow for very fast setup and usage. Generally can derive value very quickly and have a functioning setup out of the box
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Billing that can very much catch up with you quickly or billing practices that don'ty scale well into modern infra design. For example how per-host billing is done is still not very friendly to spot/dynamic workloads due to time accounting.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Mainly application monitoring, logging, and APM/Tracing.
+
+
+It acts as a strong centralized tool for things like tracing, and allows cross enterprise visibility for services that span many areas.",enterprise
+68,datadog,G2,"What do you like best about Datadog?
+APM - We use this all the time to trace issues and bugs.
+
+Responsiveness - DD is fast.
+
+Intuitive - UI and the experience is easy to understand and learn new features.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Too much to learn :-)
+
+With things moving so fast, its getting difficult to cope up with the new features.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+- Easy monitoring of the microservices.
+
+- APM to monitor performance and issue debugging.",enterprise
+69,datadog,G2,"What do you like best about Datadog?
+Learning to use DataDog. I found the Dashboard a bit overwhelming at the beginning, but over time, it has become more natural.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+There a tons of options in the dashboard, is easy to get lost.
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+We are going to be doing more DevOps as developers, so having a observability and security turnkey solution will be very helpful to us.",small
+70,datadog,G2,"What do you like best about Datadog?
+Datadog excels with its unified, real-time observability platform, seamlessly integrating infrastructure monitoring, APM, and log management with over 450 integrations for cloud-native and hybrid environments. Its intuitive dashboards, AI-driven insights, and scalable architecture make it ideal for teams seeking actionable performance insights with minimal setup.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Some of the feature are premature and with not a lot of documentation
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog help us monitor Databricks and logs",enterprise
+71,datadog,G2,"What do you like best about Datadog?
+Single panel for all issues ,monitoring , alerts
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Cost is more compared to other traditional monitoring
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Day to day monitoring",mid-market
+72,datadog,G2,"What do you like best about Datadog?
+Using traces and RUM to diagnose backend and frontend issues when poor system behavior is happening as been very helpful to quickly detect where the problem is and how to resolve it. The datadog CI tool is also very powerful
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+The system can be very complex to onboard and get started at once. Need to understand and use 1 tool at a time
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Observability",enterprise
+73,datadog,G2,"What do you like best about Datadog?
+We're able to design our own metrics , and build our own dashboards. We can also have custom alerts on it. I also like the feature where you can see the pattern of the logs.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+I dont use it as extensively, so far whatever I have used have been good
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Building custom metrics and building notification on top of the dashboards",enterprise
+74,datadog,G2,"What do you like best about Datadog?
+Love using their RUM events feature to debug slow pages, overall the metrics are reliable and great to work with.
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Hard to onboard if a new user, but overall has a lot of tools just wish I could onboard onto them faster
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Helping me debug performance issues with our website at different urls",enterprise
+75,datadog,G2,"What do you like best about Datadog?
+Protection of our apps with easy setup and hands-off prevention of attacks and scanning
+Review collected by and hosted on G2.com.
+
+What do you dislike about Datadog?
+Pricing is quite steep - there are probably specialised tools that are cheaper
+Review collected by and hosted on G2.com.
+
+What problems is Datadog solving and how is that benefiting you?
+Datadog is fully protecting our applications from malicious requests. It uses intelligent detection to allow regular traffic and block suspicious activity.
+
+
+This stops security scans and other attacks right in their tracks.",mid-market
