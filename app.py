@@ -27,6 +27,13 @@ SENTIMENT_COLORS_DT = {"NEG": "#ffd5b8", "NEU": "#ff9a57", "POS": "#f26a1b"}
 
 st.set_page_config(page_title="Customer Review Analyzer", page_icon="📊", layout="wide")
 
+st.markdown("""
+<style>
+.badge { ... }
+...
+</style>
+""", unsafe_allow_html=True)
+
 
 REQUIRED_COLS = ["id", "product", "source", "text"]
 
@@ -330,12 +337,13 @@ def plot_bar_pct(
     st.plotly_chart(fig, use_container_width=True)
 
 
-def winner_badge(ddog_val: float, dt_val: float) -> str:
-    if ddog_val > dt_val:
-        return '<span class="win">datadog wins</span>'
-    if dt_val > ddog_val:
-        return '<span class="win">dynatrace wins</span>'
-    return '<span class="win">tie</span>'
+def winner_badge_html(ddog_val: float, dt_val: float) -> str:
+    eps = 1e-9
+    if ddog_val > dt_val + eps:
+        return '<span class="badge badge-ddog">datadog wins</span>'
+    if dt_val > ddog_val + eps:
+        return '<span class="badge badge-dt">dynatrace wins</span>'
+    return '<span class="badge badge-tie">tie</span>'
 
 
 # ----------------------------
@@ -547,7 +555,7 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
         asp_name = ASPECT_DISPLAY.get(asp, asp)
         dd_net = float(net.get(("datadog", asp), 0.0))
         dt_net = float(net.get(("dynatrace", asp), 0.0))
-        badge = winner_badge(dd_net, dt_net)
+        badge = winner_badge_html(dd_net, dt_net)
 
         st.markdown(
             f"""
@@ -576,23 +584,6 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-  border: 1px solid rgba(0,0,0,0.08);
-}
-.badge-ddog { background: rgba(59,130,246,0.14); color: rgb(30,64,175); }
-.badge-dt   { background: rgba(249,115,22,0.14); color: rgb(154,52,18); }
-.badge-tie  { background: rgba(148,163,184,0.18); color: rgb(51,65,85); }
-</style>
-""", unsafe_allow_html=True)
 
 
 # ----------------------------
