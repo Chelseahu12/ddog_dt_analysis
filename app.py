@@ -407,8 +407,13 @@ def page_welcome(df_reviews: pd.DataFrame, sentence_df: pd.DataFrame, aspect_sum
                 Customer Review Analyzer
             </div>
             <div style="margin-top:8px; font-size:16px; color:#334155;">
-                I built this to quickly sanity-check what people actually talk about in Datadog vs Dynatrace reviews —
-                and whether the tone is mostly positive, neutral, or negative — without manually reading everything.
+                Hi there! I built this to sanity-check what customers actually talk about in their Datadog vs Dynatrace reviews
+                and guage whether the tone is mostly positive, neutral, or negative.
+
+                This provides preliminary insight into how we may forecast either one of these companies taking share in the market.
+
+                Please toggle and explore as is helpful!
+                
             </div>
             """,
             unsafe_allow_html=True,
