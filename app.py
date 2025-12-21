@@ -27,65 +27,6 @@ SENTIMENT_COLORS_DT = {"NEG": "#ffd5b8", "NEU": "#ff9a57", "POS": "#f26a1b"}
 
 st.set_page_config(page_title="Customer Review Analyzer", page_icon="📊", layout="wide")
 
-st.markdown(
-    f"""
-<style>
-    .stApp {{
-        background: {APP_BG};
-        color: {TEXT};
-    }}
-    .block-container {{
-        padding-top: 1.25rem;
-        padding-bottom: 2.5rem;
-        max-width: 1200px;
-    }}
-    h1, h2, h3, h4 {{
-        color: {TEXT};
-        font-weight: 650;
-        letter-spacing: -0.02em;
-    }}
-    .muted {{
-        color: {MUTED};
-        font-size: 0.98rem;
-        line-height: 1.35rem;
-    }}
-    .card {{
-        background: {CARD_BG};
-        border: 1px solid {BORDER};
-        border-radius: 16px;
-        padding: 16px 18px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-    }}
-    .pill {{
-        display: inline-block;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(47, 111, 237, 0.10);
-        color: {ACCENT_2};
-        border: 1px solid rgba(47, 111, 237, 0.20);
-        font-size: 0.90rem;
-        margin-right: 8px;
-    }}
-    .win {{
-        display: inline-block;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(34, 197, 94, 0.12);
-        color: #166534;
-        border: 1px solid rgba(34, 197, 94, 0.25);
-        font-size: 0.90rem;
-        margin-left: 8px;
-    }}
-    .divider {{
-        height: 1px;
-        background: {BORDER};
-        margin: 12px 0 12px 0;
-    }}
-</style>
-""",
-    unsafe_allow_html=True,
-)
-
 
 REQUIRED_COLS = ["id", "product", "source", "text"]
 
