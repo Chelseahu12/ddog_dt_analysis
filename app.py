@@ -577,6 +577,23 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.badge-ddog { background: rgba(59,130,246,0.14); color: rgb(30,64,175); }
+.badge-dt   { background: rgba(249,115,22,0.14); color: rgb(154,52,18); }
+.badge-tie  { background: rgba(148,163,184,0.18); color: rgb(51,65,85); }
+</style>
+""", unsafe_allow_html=True)
+
 
 # ----------------------------
 # Main yay
