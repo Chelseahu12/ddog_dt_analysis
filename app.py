@@ -478,7 +478,7 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
     # Firm-size mix
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("Firm-size mix")
-    st.markdown('<p class="muted">Two pies so the mix doesn’t get lost in a combined chart.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="muted">The mix of small (<50 employees), mid-size (50-1000 employees), and enterprise (>1000 employees) businesses included in this dataset.</p>', unsafe_allow_html=True)
 
     c1, c2 = st.columns(2, gap="large")
     with c1:
