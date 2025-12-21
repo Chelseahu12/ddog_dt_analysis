@@ -1,14 +1,3 @@
-# app.py
-# Streamlit app: Datadog vs Dynatrace review analyzer (built-in CSVs, no upload needed)
-# Reads: reviews_ddog.csv, reviews_dt.csv (must be in same repo folder as app.py)
-# Visuals: firm-size mix pies, overall sentiment pies, aspect importance bars (%), per-aspect sentiment pies.
-#
-# Key fixes:
-# - All imports are at the very top (prevents NameError issues).
-# - No NLTK punkt downloads (avoids punkt_tab / tokenizer errors).
-# - Firm "NA" stays literal "NA" (never NaN).
-# - Plotly charts: axes show %, hover shows raw counts.
-# - "I" voice copy throughout.
 
 from __future__ import annotations
 
@@ -23,12 +12,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# Optional: used in split_into_sentences (stdlib, safe)
 import re
-
-# ----------------------------
-# App styling (blue theme)
-# ----------------------------
 
 APP_BG = "#f6f9ff"
 CARD_BG = "#ffffff"
@@ -106,9 +90,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ----------------------------
-# Loading & cleaning
-# ----------------------------
 
 REQUIRED_COLS = ["id", "product", "source", "text"]
 
@@ -161,9 +142,6 @@ def load_reviews() -> pd.DataFrame:
     return pd.concat([ddog, dt], ignore_index=True)
 
 
-# ----------------------------
-# Sentence splitting (no NLTK)
-# ----------------------------
 
 def split_into_sentences(text: str) -> List[str]:
     if not isinstance(text, str):
@@ -222,9 +200,7 @@ def vader_sentiment(text: str) -> SentimentResult:
     return SentimentResult(label, float(s["neg"]), float(s["neu"]), float(s["pos"]))
 
 
-# ----------------------------
-# Aspect detection (keyword-based)
-# ----------------------------
+
 
 ASPECTS: Dict[str, List[str]] = {
     "integrations_ecosystem": ["integration", "integrations", "ecosystem", "plugin", "aws", "azure", "gcp", "kubernetes", "k8s", "slack", "jira"],
@@ -453,7 +429,7 @@ def welcome_page(df_reviews: pd.DataFrame):
     with left:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.subheader("Quick preview")
-        st.markdown('<p class="muted">A few rows so I can sanity-check the inputs.</p>', unsafe_allow_html=True)
+        st.markdown('<p class="muted">For your reference as needed.</p>', unsafe_allow_html=True)
         st.dataframe(df_reviews.head(12), use_container_width=True, height=320)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -555,7 +531,7 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
 <div class="card">
   <h2 style="margin:0;">Compare: Datadog vs Dynatrace</h2>
   <p class="muted" style="margin-top:8px;margin-bottom:0;">
-    Side-by-side views so I can quickly see what dominates and where the two differ.
+    Side-by-side views to quickly see what dominates and where the two differ.
   </p>
 </div>
 """,
