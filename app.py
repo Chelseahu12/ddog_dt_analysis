@@ -50,7 +50,6 @@ div.block-container {{
   padding-bottom: 2.5rem;
 }}
 
-/* You can hide the header/toolbar, but DON'T hide the sidebar. */
 header[data-testid="stHeader"] {{
   display: none;
 }}
@@ -60,7 +59,6 @@ div[data-testid="stToolbar"] {{
   position: fixed;
 }}
 
-/* ✅ Guardrails: force sidebar + nav content to remain visible */
 section[data-testid="stSidebar"] {{
   display: block !important;
   visibility: visible !important;
@@ -69,6 +67,17 @@ section[data-testid="stSidebar"] {{
 section[data-testid="stSidebar"] * {{
   visibility: visible !important;
 }}
+
+section[data-testid="stSidebar"] {
+  display: block;
+  visibility: visible;
+  height: 100%;
+
+  min-width: 260px;
+  max-width: 260px;
+  width: 260px;
+}
+
 
 /* Card UI */
 .card {{
