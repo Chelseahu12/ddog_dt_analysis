@@ -27,7 +27,13 @@ SENTIMENT_COLORS_DT = {"NEG": "#ffc29a", "NEU": "#ff9a57", "POS": "#f26a1b"}
 
 REQUIRED_COLS = ["id", "product", "source", "text"]
 
-st.set_page_config(page_title="Customer Review Analyzer", page_icon="📊", layout="wide")
+# ✅ IMPORTANT: keep sidebar expanded so your nav is visible on Streamlit Cloud
+st.set_page_config(
+    page_title="Customer Review Analyzer",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 st.markdown(
     f"""
@@ -43,6 +49,8 @@ div.block-container {{
   padding-top: 1.25rem;
   padding-bottom: 2.5rem;
 }}
+
+/* You can hide the header/toolbar, but DON'T hide the sidebar. */
 header[data-testid="stHeader"] {{
   display: none;
 }}
@@ -51,6 +59,18 @@ div[data-testid="stToolbar"] {{
   height: 0px;
   position: fixed;
 }}
+
+/* ✅ Guardrails: force sidebar + nav content to remain visible */
+section[data-testid="stSidebar"] {{
+  display: block !important;
+  visibility: visible !important;
+  height: 100% !important;
+}}
+section[data-testid="stSidebar"] * {{
+  visibility: visible !important;
+}}
+
+/* Card UI */
 .card {{
   background: {CARD_BG};
   border: 1px solid {BORDER};
@@ -288,16 +308,6 @@ def build_sentence_level(df_reviews: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def pct_table(counts: pd.Series, label_name: str = "label") -> pd.DataFrame:
-    out = counts.reset_index()
-    out.columns = [label_name, "count"]
-    out["count"] = out["count"].astype(int)
-    total = max(int(out["count"].sum()), 1)
-    out["pct"] = out["count"] / total
-    out[label_name] = out[label_name].astype(str)
-    return out.sort_values("count", ascending=False).reset_index(drop=True)
-
-
 @st.cache_data(show_spinner=False)
 def firm_mix(df_reviews: pd.DataFrame) -> pd.DataFrame:
     df = df_reviews.copy()
@@ -456,7 +466,10 @@ def welcome_page(df_reviews: pd.DataFrame):
         st.metric("Datadog reviews", f"{ddog}")
         st.metric("Dynatrace reviews", f"{dt}")
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-        st.markdown('<p class="muted">Use the left nav to jump into Datadog, Dynatrace, or the side-by-side compare page.</p>', unsafe_allow_html=True)
+        st.markdown(
+            '<p class="muted">Use the left nav to jump into Datadog, Dynatrace, or the side-by-side compare page.</p>',
+            unsafe_allow_html=True,
+        )
         st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -593,7 +606,11 @@ def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.
 
     net = df_aspect.set_index(["product", "aspect"])["net_sentiment"].to_dict()
     aspect_rank = (
-        df_aspect.groupby("aspect", as_index=False)["mentions"].sum().sort_values("mentions", ascending=False).head(10)["aspect"].tolist()
+        df_aspect.groupby("aspect", as_index=False)["mentions"]
+        .sum()
+        .sort_values("mentions", ascending=False)
+        .head(10)["aspect"]
+        .tolist()
     )
 
     for asp in aspect_rank:
@@ -636,7 +653,9 @@ def main():
         df_sent = build_sentence_level(df_reviews)
         df_aspect = summarize_aspects(df_sent)
 
-    st.sidebar.markdown("Navigation")
+    # ✅ Sidebar navigation (your app’s nav)
+    st.sidebar.markdown("## Navigation")
+
     page = st.sidebar.radio(
         "Go to",
         ["Welcome", "Compare", "Datadog", "Dynatrace"],
