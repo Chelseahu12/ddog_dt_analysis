@@ -1,556 +1,658 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 import re
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 
-# ----------------------------
-# Theme / styling constants
-# ----------------------------
 APP_BG = "#f6f9ff"
 CARD_BG = "#ffffff"
 ACCENT = "#2f6fed"
-ACCENT_2 = "#1f4fd6"
 TEXT = "#0f172a"
 MUTED = "#475569"
 BORDER = "#e6eefc"
 
-DDOG_BLUES = ["#d7e9ff", "#a9d1ff", "#6fb2ff", "#2f6fed", "#1648c8"]
-DT_ORANGES = ["#ffe2cf", "#ffc29a", "#ff9a57", "#f26a1b", "#c84a0b"]
+DDOG_BLUES = ["#d7e9ff", "#a9d1ff", "#6fb2ff", "#2f6fed"]
+DT_ORANGES = ["#ffe2cf", "#ffc29a", "#ff9a57", "#f26a1b"]
 
 SENTIMENT_ORDER = ["NEG", "NEU", "POS"]
-SENTIMENT_COLORS_DDOG = {"NEG": "#8fb9ff", "NEU": "#2f6fed", "POS": "#1648c8"}
-SENTIMENT_COLORS_DT = {"NEG": "#ffb38a", "NEU": "#f26a1b", "POS": "#c84a0b"}
+SENTIMENT_COLORS_DDOG = {"NEG": "#a9d1ff", "NEU": "#2f6fed", "POS": "#1648c8"}
+SENTIMENT_COLORS_DT = {"NEG": "#ffc29a", "NEU": "#ff9a57", "POS": "#f26a1b"}
 
+REQUIRED_COLS = ["id", "product", "source", "text"]
 
-# ----------------------------
-# Helpers
-# ----------------------------
-def _clean_col(c: str) -> str:
-    c = c.strip().lower()
-    c = re.sub(r"[^a-z0-9]+", "_", c)
-    c = re.sub(r"_+", "_", c).strip("_")
-    return c
-
-
-def standardize_columns(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    df.columns = [_clean_col(c) for c in df.columns]
-    return df
-
-
-def coerce_boolish(x) -> Optional[bool]:
-    if x is None or (isinstance(x, float) and np.isnan(x)):
-        return None
-    s = str(x).strip().lower()
-    if s in {"1", "true", "t", "yes", "y", "✓", "check", "checked"}:
-        return True
-    if s in {"0", "false", "f", "no", "n", "x", "✗"}:
-        return False
-    return None
-
-
-def parse_pasted_table(text: str) -> pd.DataFrame:
-    """
-    Accepts:
-      - TSV (copied from Sheets/Excel)
-      - CSV
-      - Markdown table (best-effort)
-    """
-    text = text.strip()
-    if not text:
-        return pd.DataFrame()
-
-    # If it looks like a markdown table, strip pipes and rely on whitespace/tsv-ish parsing
-    if "|" in text and "\n" in text:
-        # remove leading/trailing pipes per line
-        lines = []
-        for line in text.splitlines():
-            line = line.strip()
-            if re.match(r"^\|?(\s*:?-+:?\s*\|)+\s*:?-+:?\s*\|?$", line):
-                continue  # markdown separator row
-            line = line.strip("|")
-            lines.append(line.replace("|", "\t"))
-        text = "\n".join(lines)
-
-    # Decide delimiter
-    delimiter = "\t" if "\t" in text else ("," if "," in text else None)
-
-    if delimiter is None:
-        # fallback: split on 2+ spaces
-        rows = [re.split(r"\s{2,}", ln.strip()) for ln in text.splitlines() if ln.strip()]
-        if not rows:
-            return pd.DataFrame()
-        header = rows[0]
-        data = rows[1:] if len(rows) > 1 else []
-        return pd.DataFrame(data, columns=header)
-
-    from io import StringIO
-
-    return pd.read_csv(StringIO(text), sep=delimiter)
-
-
-def normalize_sentiment(s: str) -> Optional[str]:
-    if s is None or (isinstance(s, float) and np.isnan(s)):
-        return None
-    t = str(s).strip().upper()
-    mapping = {
-        "NEGATIVE": "NEG",
-        "NEG": "NEG",
-        "NEUTRAL": "NEU",
-        "NEU": "NEU",
-        "POSITIVE": "POS",
-        "POS": "POS",
-    }
-    return mapping.get(t, None)
-
-
-def ensure_platform_col(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Expect a 'platform' column containing 'DDOG' or 'DT'.
-    If missing, we try to infer from columns like ddog/dt flags.
-    """
-    df = df.copy()
-    if "platform" in df.columns:
-        df["platform"] = df["platform"].astype(str).str.upper().str.strip()
-        df["platform"] = df["platform"].replace({"DATADOG": "DDOG", "DYNATRACE": "DT"})
-        return df
-
-    # If you have columns named ddog/dt as boolean flags
-    if "ddog" in df.columns or "dt" in df.columns:
-        ddog = df.get("ddog")
-        dt = df.get("dt")
-        platforms = []
-        for i in range(len(df)):
-            d1 = coerce_boolish(ddog.iloc[i]) if ddog is not None else None
-            d2 = coerce_boolish(dt.iloc[i]) if dt is not None else None
-            if d1 and not d2:
-                platforms.append("DDOG")
-            elif d2 and not d1:
-                platforms.append("DT")
-            else:
-                platforms.append(None)
-        df["platform"] = platforms
-        return df
-
-    return df
-
-
-def feature_matrix(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Build a wide matrix by feature:
-      rows: feature
-      cols: DDOG, DT
-    Supports:
-      - long format: feature, platform, value (or supported / notes)
-      - wide format: feature + ddog + dt columns
-    """
-    df = df.copy()
-    df = standardize_columns(df)
-
-    # Identify a feature column
-    feat_col = None
-    for candidate in ["feature", "capability", "item", "metric", "dimension"]:
-        if candidate in df.columns:
-            feat_col = candidate
-            break
-    if feat_col is None:
-        # if first column is likely feature name
-        feat_col = df.columns[0]
-    df.rename(columns={feat_col: "feature"}, inplace=True)
-
-    # Wide format?
-    if "ddog" in df.columns or "dt" in df.columns:
-        out = df[["feature"] + [c for c in ["ddog", "dt"] if c in df.columns]].copy()
-        out["ddog"] = out.get("ddog", None).apply(lambda x: True if coerce_boolish(x) else (False if coerce_boolish(x) is False else x))
-        out["dt"] = out.get("dt", None).apply(lambda x: True if coerce_boolish(x) else (False if coerce_boolish(x) is False else x))
-        # Gap table
-        gap = out.copy()
-        gap["gap"] = gap.apply(
-            lambda r: "DT only" if (coerce_boolish(r.get("dt")) is True and coerce_boolish(r.get("ddog")) is not True)
-            else ("DDOG only" if (coerce_boolish(r.get("ddog")) is True and coerce_boolish(r.get("dt")) is not True)
-                  else ("Both" if (coerce_boolish(r.get("ddog")) is True and coerce_boolish(r.get("dt")) is True) else "Unclear")),
-            axis=1,
-        )
-        return out, gap[["feature", "gap"]]
-
-    # Long format: need platform
-    df = ensure_platform_col(df)
-    if "platform" not in df.columns:
-        return pd.DataFrame(), pd.DataFrame()
-
-    # Identify value-ish column
-    val_col = None
-    for candidate in ["value", "supported", "support", "notes", "comment", "detail"]:
-        if candidate in df.columns:
-            val_col = candidate
-            break
-    if val_col is None:
-        # fallback to second column
-        val_col = df.columns[1] if len(df.columns) > 1 else "value"
-        if val_col not in df.columns:
-            df[val_col] = None
-
-    df["platform"] = df["platform"].astype(str).str.upper().str.strip()
-    df = df[df["platform"].isin(["DDOG", "DT"])]
-
-    wide = (
-        df.pivot_table(index="feature", columns="platform", values=val_col, aggfunc="first")
-        .reset_index()
-        .rename_axis(None, axis=1)
-    )
-    if "DDOG" not in wide.columns:
-        wide["DDOG"] = None
-    if "DT" not in wide.columns:
-        wide["DT"] = None
-    wide = wide[["feature", "DDOG", "DT"]].rename(columns={"DDOG": "ddog", "DT": "dt"})
-
-    # Gap table heuristics: if value looks boolish, treat as support flag; else "Unclear/Both-ish"
-    def _gap_row(r):
-        b_ddog = coerce_boolish(r["ddog"])
-        b_dt = coerce_boolish(r["dt"])
-        if b_ddog is None or b_dt is None:
-            # if both have non-empty notes, call it both; else unclear
-            has_ddog = r["ddog"] is not None and str(r["ddog"]).strip() != "" and str(r["ddog"]).strip().lower() != "nan"
-            has_dt = r["dt"] is not None and str(r["dt"]).strip() != "" and str(r["dt"]).strip().lower() != "nan"
-            if has_ddog and has_dt:
-                return "Both (notes)"
-            if has_dt and not has_ddog:
-                return "DT only (notes)"
-            if has_ddog and not has_dt:
-                return "DDOG only (notes)"
-            return "Unclear"
-
-        if b_dt and not b_ddog:
-            return "DT only"
-        if b_ddog and not b_dt:
-            return "DDOG only"
-        if b_ddog and b_dt:
-            return "Both"
-        return "Neither"
-
-    gap = wide.copy()
-    gap["gap"] = gap.apply(_gap_row, axis=1)
-    return wide, gap[["feature", "gap"]]
-
-
-def sentiment_summary(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    df = standardize_columns(df)
-    df = ensure_platform_col(df)
-    if "platform" not in df.columns:
-        return pd.DataFrame()
-
-    # find sentiment column
-    sent_col = None
-    for c in ["sentiment", "tone", "label"]:
-        if c in df.columns:
-            sent_col = c
-            break
-    if sent_col is None:
-        return pd.DataFrame()
-
-    df["sentiment"] = df[sent_col].apply(normalize_sentiment)
-    df = df.dropna(subset=["sentiment"])
-    df = df[df["platform"].isin(["DDOG", "DT"])]
-
-    out = (
-        df.groupby(["platform", "sentiment"])
-        .size()
-        .reset_index(name="count")
-        .sort_values(["platform", "sentiment"])
-    )
-    return out
-
-
-# ----------------------------
-# Page setup
-# ----------------------------
-st.set_page_config(
-    page_title="Datadog vs Dynatrace — Comparison Builder",
-    layout="wide",
-)
+st.set_page_config(page_title="Customer Review Analyzer", page_icon="📊", layout="wide")
 
 st.markdown(
     f"""
-    <style>
-      html, body, [data-testid="stAppViewContainer"] {{
-        background: {APP_BG};
-      }}
-      .block-container {{
-        padding-top: 1.2rem;
-        padding-bottom: 2.0rem;
-        max-width: 1200px;
-      }}
-      h1, h2, h3, h4 {{
-        color: {TEXT};
-      }}
-      p, li, div {{
-        color: {TEXT};
-      }}
-      .muted {{
-        color: {MUTED};
-      }}
-      .card {{
-        background: {CARD_BG};
-        border: 1px solid {BORDER};
-        border-radius: 16px;
-        padding: 16px 16px;
-        box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
-      }}
-      .pill {{
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 999px;
-        border: 1px solid {BORDER};
-        font-size: 12px;
-        color: {MUTED};
-        background: #fff;
-        margin-right: 6px;
-      }}
-      .small {{
-        font-size: 13px;
-        color: {MUTED};
-      }}
-      .stTabs [data-baseweb="tab-list"] button {{
-        font-weight: 600;
-      }}
-      .stDataFrame {{
-        border-radius: 12px;
-        overflow: hidden;
-      }}
-    </style>
-    """,
+<style>
+html, body, [class*="css"] {{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: {TEXT};
+}}
+.stApp {{
+  background: {APP_BG};
+}}
+div.block-container {{
+  padding-top: 1.25rem;
+  padding-bottom: 2.5rem;
+}}
+header[data-testid="stHeader"] {{
+  display: none;
+}}
+div[data-testid="stToolbar"] {{
+  visibility: hidden;
+  height: 0px;
+  position: fixed;
+}}
+.card {{
+  background: {CARD_BG};
+  border: 1px solid {BORDER};
+  border-radius: 18px;
+  padding: 18px 18px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+}}
+.muted {{
+  color: {MUTED};
+}}
+.pill {{
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(47, 111, 237, 0.10);
+  color: {ACCENT};
+  border: 1px solid rgba(47, 111, 237, 0.15);
+}}
+.divider {{
+  height: 1px;
+  background: {BORDER};
+  margin: 12px 0px;
+}}
+.badge {{
+  display: inline-block;
+  padding: 0.24rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 650;
+  margin-left: 0.55rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  vertical-align: middle;
+}}
+.badge-ddog {{
+  background: rgba(47,111,237,0.12);
+  color: #1f4fd6;
+}}
+.badge-dt {{
+  background: rgba(242,106,27,0.12);
+  color: #b54712;
+}}
+.badge-tie {{
+  background: rgba(148,163,184,0.18);
+  color: #334155;
+}}
+.hrow {{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top: 6px;
+}}
+.hleft {{
+  font-size: 1.15rem;
+  font-weight: 750;
+}}
+.hright {{
+  color: {MUTED};
+  font-size: 0.95rem;
+}}
+</style>
+""",
     unsafe_allow_html=True,
 )
 
-st.title("Datadog vs Dynatrace — Comparison Builder")
-st.markdown(
-    "<span class='pill'>Upload CSV</span><span class='pill'>Paste table</span><span class='pill'>Feature matrix</span><span class='pill'>Pricing rows</span>",
-    unsafe_allow_html=True,
-)
 
-st.markdown(
-    "<div class='card'><div class='small'>Use this to standardize your notes into a consistent, banker-friendly comparison table. "
-    "If you paste your feature sheet or pricing rows, the app will build (1) a DDOG vs DT matrix, (2) an explicit gap table, "
-    "and (3) optional sentiment breakdown if you include a <b>sentiment</b> column.</div></div>",
-    unsafe_allow_html=True,
-)
-
-st.write("")
+def _normalize_na(x) -> str:
+    s = "" if x is None else str(x).strip()
+    if s.lower() in ["", "na", "nan", "none", "null"]:
+        return "NA"
+    return s
 
 
-# ----------------------------
-# Sidebar: data input
-# ----------------------------
-st.sidebar.header("1) Load data")
+def _clean_reviews_df(df: pd.DataFrame, product: str) -> pd.DataFrame:
+    df = df.copy()
+    df.columns = [c.strip().lower() for c in df.columns]
 
-input_mode = st.sidebar.radio("Choose input method", ["Upload CSV", "Paste table"], index=0)
+    missing = [c for c in REQUIRED_COLS if c not in df.columns]
+    if missing:
+        raise ValueError(f"CSV for {product} is missing required columns: {missing}")
 
-df_raw = pd.DataFrame()
+    df["product"] = product
+    df["source"] = df["source"].astype(str).str.strip()
+    df["text"] = df["text"].astype(str)
+    df["id"] = df["id"].astype(str).str.strip()
 
-if input_mode == "Upload CSV":
-    up = st.sidebar.file_uploader("Upload a CSV (features/pricing/reviews)", type=["csv"])
-    if up is not None:
-        df_raw = pd.read_csv(up)
-else:
-    pasted = st.sidebar.text_area(
-        "Paste TSV/CSV/Markdown table",
-        height=220,
-        placeholder="Paste from Sheets/Excel (tab-separated) or a markdown table.",
-    )
-    if pasted.strip():
-        df_raw = parse_pasted_table(pasted)
-
-if df_raw is not None and len(df_raw) > 0:
-    df_raw = standardize_columns(df_raw)
-
-st.sidebar.divider()
-st.sidebar.header("2) Expected columns (flexible)")
-st.sidebar.markdown(
-    """
-- **Feature matrix (recommended)**  
-  - Wide: `feature`, `ddog`, `dt`  
-  - Long: `feature`, `platform` (DDOG/DT), `value` (or `supported` / `notes`)
-- **Sentiment (optional)**  
-  - `platform`, `sentiment` (NEG/NEU/POS)
-- **Pricing rows (optional)**  
-  - `platform`, `sku`/`product`, `metric`/`unit`, `price`, `notes`
-"""
-)
-
-st.sidebar.divider()
-show_raw = st.sidebar.checkbox("Show raw data preview", value=True)
-
-
-# ----------------------------
-# Main: tabs
-# ----------------------------
-tabs = st.tabs(["Feature matrix", "Pricing compare", "Sentiment (optional)", "Export"])
-
-# ---- Tab 1: Feature matrix
-with tabs[0]:
-    st.subheader("Feature matrix")
-    if df_raw is None or len(df_raw) == 0:
-        st.info("Upload a CSV or paste a table to generate the matrix.")
+    if "firm" in df.columns:
+        df["firm"] = df["firm"].apply(_normalize_na)
     else:
-        if show_raw:
-            st.markdown("<div class='card'><b>Raw preview</b></div>", unsafe_allow_html=True)
-            st.dataframe(df_raw.head(50), use_container_width=True)
+        df["firm"] = "NA"
 
-        wide, gap = feature_matrix(df_raw)
+    firm_map = {
+        "mid market": "mid-market",
+        "midmarket": "mid-market",
+        "enterprise ": "enterprise",
+        "small ": "small",
+    }
+    df["firm"] = df["firm"].astype(str).str.strip().str.lower().replace(firm_map)
+    df["firm"] = df["firm"].apply(_normalize_na)
 
-        if wide is None or len(wide) == 0:
-            st.warning(
-                "I couldn't infer a feature matrix. Make sure you have either:\n"
-                "- Wide columns: `feature`, `ddog`, `dt`\n"
-                "- OR Long columns: `feature`, `platform` (DDOG/DT), and `value`/`notes`"
-            )
-        else:
-            left, right = st.columns([2, 1], vertical_alignment="top")
-            with left:
-                st.markdown("<div class='card'><b>DDOG vs DT — matrix</b></div>", unsafe_allow_html=True)
-                st.dataframe(wide, use_container_width=True)
+    df = df.drop_duplicates(subset=["product", "source", "text"]).reset_index(drop=True)
+    return df
 
-            with right:
-                st.markdown("<div class='card'><b>Gap summary</b></div>", unsafe_allow_html=True)
-                if gap is not None and len(gap) > 0:
-                    counts = gap["gap"].value_counts().reset_index()
-                    counts.columns = ["gap", "count"]
-                    fig = px.bar(counts, x="gap", y="count")
-                    st.plotly_chart(fig, use_container_width=True)
-                else:
-                    st.write("No gaps computed.")
 
-            st.write("")
-            st.markdown("<div class='card'><b>Gap table</b> <span class='small'>(what’s unique vs overlapping)</span></div>", unsafe_allow_html=True)
-            if gap is not None and len(gap) > 0:
-                st.dataframe(gap.sort_values(["gap", "feature"]), use_container_width=True)
-            else:
-                st.write("No gap table available.")
+@st.cache_data(show_spinner=False)
+def load_reviews() -> pd.DataFrame:
+    ddog = pd.read_csv("reviews_ddog.csv")
+    dt = pd.read_csv("reviews_dt.csv")
+    ddog = _clean_reviews_df(ddog, "datadog")
+    dt = _clean_reviews_df(dt, "dynatrace")
+    ddog["id"] = ddog["id"].apply(lambda x: f"ddog_{x}")
+    dt["id"] = dt["id"].apply(lambda x: f"dt_{x}")
+    return pd.concat([ddog, dt], ignore_index=True)
 
-# ---- Tab 2: Pricing compare
-with tabs[1]:
-    st.subheader("Pricing compare (lightweight)")
+
+def split_into_sentences(text: str) -> List[str]:
+    if not isinstance(text, str):
+        return []
+    t = " ".join(text.strip().split())
+    if not t:
+        return []
+    parts = re.split(r"(?<=[\.\!\?])\s+", t)
+    out = [p.strip() for p in parts if len(p.strip()) >= 3]
+    return out[:25]
+
+
+@dataclass
+class SentimentResult:
+    label: str
+    neg: float
+    neu: float
+    pos: float
+
+
+@st.cache_resource(show_spinner=False)
+def get_vader():
+    try:
+        from nltk.sentiment import SentimentIntensityAnalyzer  # type: ignore
+
+        return SentimentIntensityAnalyzer()
+    except Exception:
+        return None
+
+
+def vader_sentiment(text: str) -> SentimentResult:
+    sia = get_vader()
+    if sia is None:
+        low = text.lower()
+        neg_words = ["bad", "terrible", "awful", "bug", "slow", "expensive", "hate", "broken", "issue", "noisy"]
+        pos_words = ["good", "great", "excellent", "love", "fast", "reliable", "amazing", "easy", "helpful", "powerful"]
+        score = sum(w in low for w in pos_words) - sum(w in low for w in neg_words)
+        if score >= 1:
+            return SentimentResult("POS", 0.05, 0.10, 0.85)
+        if score <= -1:
+            return SentimentResult("NEG", 0.85, 0.10, 0.05)
+        return SentimentResult("NEU", 0.10, 0.80, 0.10)
+
+    s = sia.polarity_scores(text)
+    comp = s["compound"]
+    if comp >= 0.20:
+        label = "POS"
+    elif comp <= -0.20:
+        label = "NEG"
+    else:
+        label = "NEU"
+    return SentimentResult(label, float(s["neg"]), float(s["neu"]), float(s["pos"]))
+
+
+ASPECTS: Dict[str, List[str]] = {
+    "integrations_ecosystem": ["integration", "integrations", "ecosystem", "plugin", "aws", "azure", "gcp", "kubernetes", "k8s", "slack", "jira"],
+    "apm_tracing": ["apm", "trace", "tracing", "span", "latency", "profil", "instrumentation"],
+    "dashboards_ux": ["dashboard", "dashboards", "ui", "ux", "visual", "visualization", "chart", "graph", "interface", "intuitive", "easy to use"],
+    "logs_search": ["logs", "log", "search", "query", "index", "parsing", "filter"],
+    "alerts_noise": ["alert", "alerts", "paging", "pager", "noise", "false positive", "threshold", "monitor"],
+    "ai_root_cause": ["root cause", "rca", "ai", "anomaly", "anomalies", "auto", "insight", "cause analysis"],
+    "performance_overhead": ["agent", "overhead", "cpu", "memory", "resource", "performance impact"],
+    "pricing_billing": ["price", "pricing", "bill", "billing", "cost", "expensive", "overage", "usage", "contract"],
+    "setup_onboarding": ["setup", "install", "onboarding", "configuration", "config", "deploy", "deployment", "getting started"],
+    "reliability_uptime": ["reliable", "reliability", "uptime", "stable", "availability", "downtime"],
+    "support_docs": ["support", "ticket", "docs", "documentation", "help", "response time"],
+}
+
+ASPECT_DISPLAY = {
+    "integrations_ecosystem": "integrations & ecosystem",
+    "apm_tracing": "apm & tracing",
+    "dashboards_ux": "dashboards & ux",
+    "logs_search": "logs & search",
+    "alerts_noise": "alerts & noise",
+    "ai_root_cause": "ai / root-cause",
+    "performance_overhead": "performance / overhead",
+    "pricing_billing": "pricing & billing",
+    "setup_onboarding": "setup & onboarding",
+    "reliability_uptime": "reliability / uptime",
+    "support_docs": "support & docs",
+    "other": "other / misc",
+}
+
+
+def detect_aspects(sentence: str) -> List[str]:
+    s = sentence.lower()
+    hits = []
+    for asp, kws in ASPECTS.items():
+        if any(kw in s for kw in kws):
+            hits.append(asp)
+    return hits or ["other"]
+
+
+@st.cache_data(show_spinner=True)
+def build_sentence_level(df_reviews: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for _, r in df_reviews.iterrows():
+        firm = _normalize_na(r.get("firm", "NA"))
+        for s in split_into_sentences(r["text"]):
+            sent = vader_sentiment(s)
+            for asp in detect_aspects(s):
+                rows.append(
+                    {
+                        "id": r["id"],
+                        "product": r["product"],
+                        "source": r["source"],
+                        "firm": firm,
+                        "sentence": s,
+                        "aspect": asp,
+                        "sentiment": sent.label,
+                        "neg": sent.neg,
+                        "neu": sent.neu,
+                        "pos": sent.pos,
+                    }
+                )
+    df = pd.DataFrame(rows)
+    if not df.empty:
+        df["firm"] = df["firm"].apply(_normalize_na)
+    return df
+
+
+def pct_table(counts: pd.Series, label_name: str = "label") -> pd.DataFrame:
+    out = counts.reset_index()
+    out.columns = [label_name, "count"]
+    out["count"] = out["count"].astype(int)
+    total = max(int(out["count"].sum()), 1)
+    out["pct"] = out["count"] / total
+    out[label_name] = out[label_name].astype(str)
+    return out.sort_values("count", ascending=False).reset_index(drop=True)
+
+
+@st.cache_data(show_spinner=False)
+def firm_mix(df_reviews: pd.DataFrame) -> pd.DataFrame:
+    df = df_reviews.copy()
+    df["firm"] = df["firm"].apply(_normalize_na).astype(str).str.lower()
+    out = df.groupby(["product", "firm"]).size().reset_index(name="count")
+    out["pct"] = out.groupby("product")["count"].transform(lambda x: x / max(int(x.sum()), 1))
+    out = out.sort_values(["product", "count"], ascending=[True, False]).reset_index(drop=True)
+    out = out.rename(columns={"firm": "label"})
+    return out
+
+
+@st.cache_data(show_spinner=False)
+def overall_sentiment(df_sent: pd.DataFrame) -> pd.DataFrame:
+    g = df_sent.groupby(["product", "sentiment"]).size().reset_index(name="count")
+    all_idx = pd.MultiIndex.from_product(
+        [sorted(df_sent["product"].unique()), SENTIMENT_ORDER],
+        names=["product", "sentiment"],
+    )
+    g = g.set_index(["product", "sentiment"]).reindex(all_idx, fill_value=0).reset_index()
+    g["pct"] = g.groupby("product")["count"].transform(lambda x: x / max(int(x.sum()), 1))
+    g = g.rename(columns={"sentiment": "label"})
+    return g
+
+
+@st.cache_data(show_spinner=False)
+def summarize_aspects(df_sent: pd.DataFrame) -> pd.DataFrame:
+    g = df_sent.groupby(["product", "aspect"], as_index=False).agg(
+        mentions=("sentence", "count"),
+        neg=("sentiment", lambda x: int((x == "NEG").sum())),
+        neu=("sentiment", lambda x: int((x == "NEU").sum())),
+        pos=("sentiment", lambda x: int((x == "POS").sum())),
+    )
+    g["neg_share"] = g["neg"] / g["mentions"].clip(lower=1)
+    g["neu_share"] = g["neu"] / g["mentions"].clip(lower=1)
+    g["pos_share"] = g["pos"] / g["mentions"].clip(lower=1)
+    g["net_sentiment"] = g["pos_share"] - g["neg_share"]
+    g["aspect_display"] = g["aspect"].map(ASPECT_DISPLAY).fillna(g["aspect"])
+    return g.sort_values(["product", "mentions"], ascending=[True, False]).reset_index(drop=True)
+
+
+def plot_pie_percent(df_pct: pd.DataFrame, title: str, colors: List[str], height: int = 300):
+    if df_pct is None or df_pct.empty:
+        st.info("No data available for this chart yet.")
+        return
+    needed = {"label", "pct", "count"}
+    if not needed.issubset(set(df_pct.columns)):
+        st.error(f"Chart data missing columns: {sorted(list(needed - set(df_pct.columns)))}")
+        return
+
+    dfp = df_pct.copy()
+    dfp["label"] = dfp["label"].astype(str)
+
+    fig = px.pie(
+        dfp,
+        names="label",
+        values="pct",
+        hover_data={"count": True, "pct": ":.1%"},
+        color_discrete_sequence=colors,
+        title=title,
+        height=height,
+    )
+    fig.update_traces(textposition="inside", textinfo="percent", insidetextfont=dict(size=12))
+    fig.update_layout(
+        margin=dict(l=8, r=8, t=55, b=8),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        legend_title_text="",
+        font=dict(color=TEXT),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def plot_bar_pct(
+    df: pd.DataFrame,
+    title: str,
+    x_col: str,
+    pct_col: str,
+    count_col: str,
+    color: str,
+    height: int = 420,
+    x_label: str = "aspect",
+    y_label: str = "share",
+):
+    if df is None or df.empty:
+        st.info("No data available for this chart yet.")
+        return
+
+    d = df.copy()
+    d[pct_col] = d[pct_col].astype(float).clip(lower=0.0)
+
+    fig = px.bar(
+        d,
+        x=x_col,
+        y=pct_col,
+        text=d[pct_col].map(lambda v: f"{v*100:.1f}%"),
+        hover_data={count_col: True, pct_col: ":.1%"},
+        height=height,
+    )
+    fig.update_traces(marker_color=color, textposition="outside", cliponaxis=False)
+    fig.update_yaxes(tickformat=".0%", title=y_label, rangemode="tozero")
+    fig.update_xaxes(title=x_label, tickangle=45)
+    fig.update_layout(
+        title=title,
+        margin=dict(l=8, r=8, t=55, b=8),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color=TEXT),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def winner_badge_html(ddog_val: float, dt_val: float) -> str:
+    eps = 1e-9
+    if ddog_val > dt_val + eps:
+        return '<span class="badge badge-ddog">datadog wins</span>'
+    if dt_val > ddog_val + eps:
+        return '<span class="badge badge-dt">dynatrace wins</span>'
+    return '<span class="badge badge-tie">tie</span>'
+
+
+def welcome_page(df_reviews: pd.DataFrame):
     st.markdown(
-        "<div class='card'><div class='small'>If you provide rows like platform/product/unit/price, "
-        "this will standardize and let you filter + compare. If your pricing is messy, paste it here and "
-        "then export a cleaned sheet.</div></div>",
+        """
+<div class="card">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <span class="pill">built-in dataset</span>
+    <span class="pill">no upload needed</span>
+    <span class="pill">datadog vs dynatrace</span>
+  </div>
+  <div class="divider"></div>
+  <h1 style="margin:0;">Customer Review Analyzer</h1>
+  <p class="muted" style="margin-top:8px;margin-bottom:0;">
+    I pulled a review dataset for Datadog and Dynatrace and built this so I can quickly see (1) who’s getting better sentiment,
+    (2) what people talk about most, and (3) how that varies by firm size.
+  </p>
+</div>
+""",
         unsafe_allow_html=True,
     )
-    st.write("")
 
-    pricing_df = pd.DataFrame()
-    if df_raw is not None and len(df_raw) > 0:
-        # Heuristic: treat as pricing if it contains price-like column
-        price_cols = [c for c in df_raw.columns if c in {"price", "rate", "cost", "usd", "list_price"}]
-        if price_cols:
-            pricing_df = df_raw.copy()
-            # normalize platform if present
-            pricing_df = ensure_platform_col(pricing_df)
+    left, right = st.columns([2, 1], gap="large")
+    with left:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader("Quick preview")
+        st.markdown('<p class="muted">For reference (first few rows).</p>', unsafe_allow_html=True)
+        st.dataframe(df_reviews.head(12), use_container_width=True, height=320)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    if pricing_df is None or len(pricing_df) == 0:
-        st.info("No obvious pricing columns found in your uploaded/pasted data. If you want, paste a pricing table with a `price` column.")
-    else:
-        pricing_df = standardize_columns(pricing_df)
+    with right:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader("Dataset size")
+        total = len(df_reviews)
+        ddog = int((df_reviews["product"] == "datadog").sum())
+        dt = int((df_reviews["product"] == "dynatrace").sum())
+        st.metric("Total reviews", f"{total}")
+        st.metric("Datadog reviews", f"{ddog}")
+        st.metric("Dynatrace reviews", f"{dt}")
+        st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+        st.markdown('<p class="muted">Use the left nav to jump into Datadog, Dynatrace, or the side-by-side compare page.</p>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Rename likely columns
-        renames = {}
-        if "product" not in pricing_df.columns:
-            for c in ["sku", "plan", "module", "tier", "service"]:
-                if c in pricing_df.columns:
-                    renames[c] = "product"
-                    break
-        if "unit" not in pricing_df.columns:
-            for c in ["metric", "billing_unit", "billing", "per", "usage_unit"]:
-                if c in pricing_df.columns:
-                    renames[c] = "unit"
-                    break
-        if renames:
-            pricing_df = pricing_df.rename(columns=renames)
 
-        platform_filter = st.multiselect("Platform", ["DDOG", "DT"], default=["DDOG", "DT"])
-        q = st.text_input("Search product / notes", placeholder="e.g., host, container, APM, logs, Grail, OneAgent")
-        dfv = pricing_df.copy()
-        if "platform" in dfv.columns:
-            dfv = dfv[dfv["platform"].isin(platform_filter)]
-        if q.strip():
-            pat = re.escape(q.strip().lower())
-            mask = pd.Series(False, index=dfv.index)
-            for c in dfv.columns:
-                mask = mask | dfv[c].astype(str).str.lower().str.contains(pat, na=False)
-            dfv = dfv[mask]
-
-        st.dataframe(dfv, use_container_width=True)
-
-# ---- Tab 3: Sentiment
-with tabs[2]:
-    st.subheader("Sentiment (optional)")
+def product_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.DataFrame, product: str):
+    pretty = "Datadog" if product == "datadog" else "Dynatrace"
     st.markdown(
-        "<div class='card'><div class='small'>If your data includes `platform` and `sentiment` "
-        "(NEG/NEU/POS), we’ll chart distribution by platform.</div></div>",
+        f"""
+<div class="card">
+  <h2 style="margin:0;">{pretty}</h2>
+  <p class="muted" style="margin-top:8px;margin-bottom:0;">
+    Firm-size mix, sentence-level sentiment, and the topics that show up the most in the reviews I pulled.
+  </p>
+</div>
+""",
         unsafe_allow_html=True,
     )
-    st.write("")
 
-    sent = pd.DataFrame()
-    if df_raw is not None and len(df_raw) > 0:
-        sent = sentiment_summary(df_raw)
+    d_reviews = df_reviews[df_reviews["product"] == product].copy()
+    d_sent = df_sent[df_sent["product"] == product].copy()
+    d_aspect = df_aspect[df_aspect["product"] == product].copy()
 
-    if sent is None or len(sent) == 0:
-        st.info("No sentiment detected. Add columns like: `platform` (DDOG/DT) and `sentiment` (NEG/NEU/POS).")
-    else:
-        # Ensure order
-        sent["sentiment"] = pd.Categorical(sent["sentiment"], categories=SENTIMENT_ORDER, ordered=True)
-        sent = sent.sort_values(["platform", "sentiment"])
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Firm-size mix")
+    st.markdown('<p class="muted">Breakdown of reviews by firm-size bucket (as labeled on the source site).</p>', unsafe_allow_html=True)
+    mix = firm_mix(d_reviews)
+    colors = DDOG_BLUES if product == "datadog" else DT_ORANGES
+    plot_pie_percent(mix[["label", "pct", "count"]], f"{pretty} firm-size mix", colors=colors, height=280)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-        st.dataframe(sent, use_container_width=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Overall sentiment")
+    st.markdown('<p class="muted">Sentence-level sentiment (a single review can contribute multiple sentences). Hover for counts.</p>', unsafe_allow_html=True)
+    ov = overall_sentiment(d_sent)
+    ov = ov[ov["product"] == product].copy()
+    sent_colors = SENTIMENT_COLORS_DDOG if product == "datadog" else SENTIMENT_COLORS_DT
+    plot_pie_percent(
+        ov[["label", "pct", "count"]],
+        f"{pretty} sentiment (by sentence)",
+        colors=[sent_colors[k] for k in SENTIMENT_ORDER],
+        height=280,
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
-        # Plot
-        fig = px.bar(sent, x="sentiment", y="count", color="platform", barmode="group")
-        st.plotly_chart(fig, use_container_width=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("What people mention the most")
+    st.markdown('<p class="muted">Ranked by share of mentions. Axis is %; hover bars to see raw counts.</p>', unsafe_allow_html=True)
 
-# ---- Tab 4: Export
-with tabs[3]:
-    st.subheader("Export cleaned outputs")
+    top = d_aspect.sort_values("mentions", ascending=False).copy()
+    top["mention_share"] = top["mentions"] / max(int(top["mentions"].sum()), 1)
+    top = top.head(12)
+
+    plot_bar_pct(
+        top,
+        title="top aspects (share of mentions)",
+        x_col="aspect_display",
+        pct_col="mention_share",
+        count_col="mentions",
+        color=ACCENT if product == "datadog" else "#f26a1b",
+        height=420,
+        x_label="aspect",
+        y_label="share of mentions",
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+def compare_page(df_reviews: pd.DataFrame, df_sent: pd.DataFrame, df_aspect: pd.DataFrame):
     st.markdown(
-        "<div class='card'><div class='small'>Download standardized tables as CSV for your memo / model / deck.</div></div>",
+        """
+<div class="card">
+  <h2 style="margin:0;">Compare: Datadog vs Dynatrace</h2>
+  <p class="muted" style="margin-top:8px;margin-bottom:0;">
+    Side-by-side views so I can see what dominates and where they diverge.
+  </p>
+</div>
+""",
         unsafe_allow_html=True,
     )
-    st.write("")
 
-    if df_raw is None or len(df_raw) == 0:
-        st.info("Load data first.")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Firm-size mix")
+    st.markdown('<p class="muted">Share of reviews labeled small vs mid-market vs enterprise.</p>', unsafe_allow_html=True)
+    c1, c2 = st.columns(2, gap="large")
+    with c1:
+        dd = firm_mix(df_reviews[df_reviews["product"] == "datadog"])
+        plot_pie_percent(dd[["label", "pct", "count"]], "datadog firm-size mix", colors=DDOG_BLUES, height=260)
+    with c2:
+        dt = firm_mix(df_reviews[df_reviews["product"] == "dynatrace"])
+        plot_pie_percent(dt[["label", "pct", "count"]], "dynatrace firm-size mix", colors=DT_ORANGES, height=260)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Overall sentiment")
+    st.markdown('<p class="muted">Sentence-level sentiment for each product.</p>', unsafe_allow_html=True)
+    ov = overall_sentiment(df_sent)
+    c1, c2 = st.columns(2, gap="large")
+    with c1:
+        dd = ov[ov["product"] == "datadog"]
+        plot_pie_percent(dd[["label", "pct", "count"]], "datadog sentiment", colors=[SENTIMENT_COLORS_DDOG[k] for k in SENTIMENT_ORDER], height=260)
+    with c2:
+        dt = ov[ov["product"] == "dynatrace"]
+        plot_pie_percent(dt[["label", "pct", "count"]], "dynatrace sentiment", colors=[SENTIMENT_COLORS_DT[k] for k in SENTIMENT_ORDER], height=260)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("What people care about (ranked)")
+    st.markdown('<p class="muted">Ranked by total mentions across both products. Bars show share-of-mentions per product.</p>', unsafe_allow_html=True)
+
+    total_mentions = df_aspect.groupby("aspect_display", as_index=False)["mentions"].sum().rename(columns={"mentions": "total_mentions"})
+    top_aspects = total_mentions.sort_values("total_mentions", ascending=False).head(10)["aspect_display"].tolist()
+
+    a = df_aspect[df_aspect["aspect_display"].isin(top_aspects)].copy()
+    a["mention_share"] = a.groupby("product")["mentions"].transform(lambda x: x / max(int(x.sum()), 1))
+
+    c1, c2 = st.columns(2, gap="large")
+    with c1:
+        dd = a[a["product"] == "datadog"].sort_values("mention_share", ascending=False)
+        plot_bar_pct(dd, "datadog: top aspects (share of mentions)", "aspect_display", "mention_share", "mentions", ACCENT, height=420)
+    with c2:
+        dt = a[a["product"] == "dynatrace"].sort_values("mention_share", ascending=False)
+        plot_bar_pct(dt, "dynatrace: top aspects (share of mentions)", "aspect_display", "mention_share", "mentions", "#f26a1b", height=420)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Per-aspect sentiment (side-by-side)")
+    st.markdown('<p class="muted">For each aspect: sentiment split for Datadog vs Dynatrace. Badge = who wins on net sentiment.</p>', unsafe_allow_html=True)
+
+    sent_g = df_sent.groupby(["product", "aspect", "sentiment"]).size().reset_index(name="count")
+    all_idx = pd.MultiIndex.from_product(
+        [sorted(df_sent["product"].unique()), sorted(df_sent["aspect"].unique()), SENTIMENT_ORDER],
+        names=["product", "aspect", "sentiment"],
+    )
+    sent_g = sent_g.set_index(["product", "aspect", "sentiment"]).reindex(all_idx, fill_value=0).reset_index()
+    sent_g["pct"] = sent_g.groupby(["product", "aspect"])["count"].transform(lambda x: x / max(int(x.sum()), 1))
+
+    net = df_aspect.set_index(["product", "aspect"])["net_sentiment"].to_dict()
+    aspect_rank = (
+        df_aspect.groupby("aspect", as_index=False)["mentions"].sum().sort_values("mentions", ascending=False).head(10)["aspect"].tolist()
+    )
+
+    for asp in aspect_rank:
+        asp_name = ASPECT_DISPLAY.get(asp, asp)
+        dd_net = float(net.get(("datadog", asp), 0.0))
+        dt_net = float(net.get(("dynatrace", asp), 0.0))
+        badge = winner_badge_html(dd_net, dt_net)
+
+        st.markdown(
+            f"""
+<div class="hrow">
+  <div class="hleft">{asp_name} {badge}</div>
+  <div class="hright">net sentiment: datadog {dd_net:+.2f} vs dynatrace {dt_net:+.2f}</div>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
+
+        c1, c2 = st.columns(2, gap="large")
+        with c1:
+            dd = sent_g[(sent_g["product"] == "datadog") & (sent_g["aspect"] == asp)].rename(columns={"sentiment": "label"})
+            dd["label"] = pd.Categorical(dd["label"], categories=SENTIMENT_ORDER, ordered=True)
+            dd = dd.sort_values("label")
+            plot_pie_percent(dd[["label", "pct", "count"]], "datadog sentiment", colors=[SENTIMENT_COLORS_DDOG[k] for k in SENTIMENT_ORDER], height=240)
+        with c2:
+            dt = sent_g[(sent_g["product"] == "dynatrace") & (sent_g["aspect"] == asp)].rename(columns={"sentiment": "label"})
+            dt["label"] = pd.Categorical(dt["label"], categories=SENTIMENT_ORDER, ordered=True)
+            dt = dt.sort_values("label")
+            plot_pie_percent(dt[["label", "pct", "count"]], "dynatrace sentiment", colors=[SENTIMENT_COLORS_DT[k] for k in SENTIMENT_ORDER], height=240)
+
+        st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+def main():
+    df_reviews = load_reviews()
+
+    with st.spinner("Crunching sentence-level sentiment + aspects…"):
+        df_sent = build_sentence_level(df_reviews)
+        df_aspect = summarize_aspects(df_sent)
+
+    st.sidebar.markdown("Navigation")
+    page = st.sidebar.radio(
+        "Go to",
+        ["Welcome", "Compare", "Datadog", "Dynatrace"],
+        index=0,
+        label_visibility="collapsed",
+    )
+
+    if page == "Welcome":
+        welcome_page(df_reviews)
+    elif page == "Compare":
+        compare_page(df_reviews, df_sent, df_aspect)
+    elif page == "Datadog":
+        product_page(df_reviews, df_sent, df_aspect, "datadog")
     else:
-        wide, gap = feature_matrix(df_raw)
-        sent = sentiment_summary(df_raw)
-
-        def dl_button(df: pd.DataFrame, label: str, filename: str):
-            if df is None or len(df) == 0:
-                st.write(f"— {label}: (empty)")
-                return
-            csv = df.to_csv(index=False).encode("utf-8")
-            st.download_button(label=label, data=csv, file_name=filename, mime="text/csv")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            dl_button(df_raw, "Download: raw standardized", "raw_standardized.csv")
-            dl_button(wide, "Download: feature_matrix", "feature_matrix.csv")
-        with col2:
-            dl_button(gap, "Download: gap_table", "gap_table.csv")
-            dl_button(sent, "Download: sentiment_summary", "sentiment_summary.csv")
+        product_page(df_reviews, df_sent, df_aspect, "dynatrace")
 
 
-# Footer
-st.write("")
-st.markdown(
-    "<div class='small muted'>Tip: If you paste your sheet and it doesn’t map, rename columns to "
-    "`feature`, `ddog`, `dt` (wide) or `feature`, `platform`, `value` (long).</div>",
-    unsafe_allow_html=True,
-)
+if __name__ == "__main__":
+    main()
