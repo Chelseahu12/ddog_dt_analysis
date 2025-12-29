@@ -1,4 +1,4 @@
 # datadog_dynatrace_analysis
 Hi!
-This is a temporary customer sentiment analysis tool.
-Please read the pitch for more info!
+This is a customer sentiment analysis tool for my DT pitch.
+Please read the investment memo for more info!
